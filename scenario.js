@@ -13,9 +13,10 @@ class Choice {
 }
 
 class Senario {
-  constructor(name, dialogue, choices) {
+  constructor(name, dialogue, choiceQuestion, choices) {
     this.name = name,
-      this.dialogue = dialogue;
+    this.dialogue = dialogue;
+    this.choiceQuestion = choiceQuestion
     this.choices = choices;
   }
 
@@ -73,7 +74,7 @@ let cityChoices = {
   choice3: new Choice('Brotherhood of Monks', `${char.wizard.name} says “I have some pigment with me that will work as dye for our cloaks. I can make them all a dark brown so we will pass for a band of traveling monks.” ${char.assassin.name} goes out to collect grasses from the surrounding area to stuff under the cloaks and ${char.hunter.name} begins braiding rope to use as belts. When the cloaks have dried enough in the sun to wear you help each other tie your cloaks around you like robes and stuff them with grasses to disguise the shape of your weapons. Now you look like a group of pudgy monks, you hope this will be convincing to the gate guards. ${char.wizard.name} does the talking as you meet the guard. The rest of you have taken a “vow of silence” and keep your heads bowed as you are motioned through. The burly guard tells your group where to find a clean inn that welcomes visiting clergy and (wizard) thanks him. You had been instructed to meet your contact at a tavern called the “Horned Animal” where he will greet you with a code phrase. Your “holy robes” seem to be working because not a single guard that passes your group even looks at you twice.`, null, null)
 }
 
-let cityAroundThePalace = new Senario('CITY SURROUNDING THE CASTLE', 'Your band arrives to the city surrounding the palace with plans to meet the contact you were given when you first crossed through the kingdoms walls. However things never go exactly as planned… The kings guards are swarming the city and a group of mighty fighters like yourselves can’t just walk through the city unnoticed. You will have to go in disguised and hope that your contact will be able to recognize you. What kind of disguise do you think you should use?', cityChoices)
+let cityAroundThePalace = new Senario('CITY SURROUNDING THE CASTLE', 'Your band arrives to the city surrounding the palace with plans to meet the contact you were given when you first crossed through the kingdoms walls. However things never go exactly as planned… The kings guards are swarming the city and a group of mighty fighters like yourselves can’t just walk through the city unnoticed. You will have to go in disguised and hope that your contact will be able to recognize you.', 'What kind of disguise do you think you should use?', cityChoices)
 
 
 // horned animal
@@ -97,6 +98,8 @@ let cityAroundThePalace = new Senario('CITY SURROUNDING THE CASTLE', 'Your band 
 
 //playSenario(atTheWall);
 
+
 module.exports = {
   cityAroundThePalace
 }
+
