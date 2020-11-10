@@ -4,15 +4,31 @@ const ioClient = require('socket.io-client');
 const client = ioClient('ws://localhost:3000');
 const inquirer = require('inquirer');
 
-
+ //   intro,
+  //   atTheWall,
+  //   theOrcLord, *
+  //   theOldFriend, *
+  //   theWoodsman, *
+  //   theVillage,
+  //   thePoisonousBite, *
+  //   theGoblin, *
+  //   theTroll,
+  //   theMerchant,
+  //   theWitch,
+  //   theHydra,
+  //   rebellion
+  //   cityAroundThePalace,
+  //   hornedAnimal,
+  //   mageSmith
+  //   theKing
 
 client.on('connect', () => {
   console.log('Player Connected');
-  client.on('intro', payload => {
-    console.log(payload.title);
-    console.log(payload.dialogue);
-    readyCheckFunction()
-  })
+  // client.on('intro', payload => {
+  //   console.log(payload.title);
+  //   console.log(payload.dialogue);
+  //   readyCheckFunction()
+  // })
   client.on('cityAroundThePalace', function (data) {
     console.log(data.name);
     console.log(data.dialogue);
@@ -63,3 +79,7 @@ function riddle(senario){
     });
 }
   
+function rollDice() {
+  let roll = Math.floor(Math.random() * Math.floor(6));
+  return roll;
+}

@@ -4,6 +4,7 @@ const io = require('socket.io')(3000);
 const hub = io.of('/server');
 const inquirer = require('inquirer');
 
+
 const senario = require('../scenario.js')
 
 
@@ -49,7 +50,16 @@ io.on('connection', (socket) =>{
       //minstrals got most votes 
       // michael make arrays your fav
       socket.emit('cityAroundThePalaceChoice', senario.cityAroundThePalace.choices.choice2)
+      socket.on('cityAroundThePalaceChoice', ready) {
+        if (readyCheckFunction() === 4) {
+          socket.emit(startMageSmith, mageSmithhandler)
+        } 
+      }
+      socket.on('mageSmith', )
     })
+
+    
+
     
     
     
@@ -123,3 +133,7 @@ function choiceVote(result) {
 //   if we get all for checks back to move on
 //   socket.emit(eventName, senario);
 // }
+
+mageSmithhandler(){
+  socket.emit()
+}
