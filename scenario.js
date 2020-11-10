@@ -107,7 +107,7 @@ const atTheWall = new Senario('At the Wall', `Having received the villagers plea
 
 
 // intro
-const intro = new Senario('Introduction', 'In the beginning, the people welcomed a rich and powerful lord as their king, not knowing that the he would take over the land and bring famine and disease to the people. He taxed the poor and spared the rich. He built walls, really tall walls, around the kingdom to keep out the surrounding nations. Due to the king’s rule, villainess monsters have moved in and flourish in the kingdom. They prey on the poor villagers. Emboldened by the king’s tyranny, the monsters have come out of hiding to rain terror upon the land. A secret rebellion has formed amongst the kingdom’s villages. A messenger has been sent to sneak out and find your legendary band of warriors to plea for your aid, in overturning the evil kings reign.',null, atTheWall);
+const intro = new Senario('Introduction', 'In the beginning, the people welcomed a rich and powerful lord as their king, not knowing that the he would take over the land and bring famine and disease to the people. He taxed the poor and spared the rich. He built walls, really tall walls, around the kingdom to keep out the surrounding nations. Due to the king’s rule, villainess monsters have moved in and flourish in the kingdom. They prey on the poor villagers. Emboldened by the king’s tyranny, the monsters have come out of hiding to rain terror upon the land. A secret rebellion has formed amongst the kingdom’s villages. A messenger has been sent to sneak out and find your legendary band of warriors to plea for your aid, in overturning the evil kings reign.',null, null);
 
 
 
