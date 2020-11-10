@@ -21,6 +21,10 @@ class Character {
   addAttack(value) {
     this.stats.attack += value;
   }
+  activateLoot(lootObj) {
+    this.addHealth(lootObj.health);
+    this.addAttack(lootObj.attack);
+  }
 }
 
 let assassin = new Character('Athyrium', 'Human', 'Assassin', 20, 15)

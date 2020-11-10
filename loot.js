@@ -12,7 +12,7 @@ class Loot {
 }
 
 let orcLordMace = new Loot('Orc Lord Mace', ['Ogre'], 0, 2);
-let herbalPotion = new Loot('Herbal Potion', ['Wizard', 'Assassin', 'Warrior', 'Hunter'], 5, 0);
+let herbalSalve = new Loot('Herbal Salve', ['Wizard', 'Assassin', 'Warrior', 'Hunter'], 5, 0);
 let strongBandages = new Loot('Strong Bandages', ['Wizard', 'Assassin', 'Warrior', 'Hunter'], 10, 0);
 let falcon = new Loot('Falcon', ['Hunter'], 0, 0);
 let sheild = new Loot('Sheild', ['Ogre'], 3, 2);
@@ -28,7 +28,7 @@ let mysteriousSword = new Loot('Mysterious Sword', ['Assassin'], 0, 1);
 
 module.exports = {
   orcLordMace,
-  herbalPotion,
+  herbalSalve,
   strongBandages,
   falcon,
   sheild,
