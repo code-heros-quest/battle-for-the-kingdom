@@ -2,7 +2,13 @@
 
 // by class
 class Loot {
-  constructor(name, role, health, attack)
+  constructor(name, role, health, attack) {
+    this.name = name;
+    this.role = role;
+    this.health = health;
+    this.attack = attack;
+  }
+
 }
 
 let orcLordMace = new Loot('Orc Lord Mace', ['Ogre'], 0, 2);
@@ -20,7 +26,7 @@ let brittleHeirloomBow = new Loot('Brittle Heirloom Bow', ['Hunter'], 0, 1);
 let mightyEnchantedSword = new Loot('Mighty Enchanted Sword', ['Assassin'], 0, 6);
 let mysteriousSword = new Loot('Mysterious Sword', ['Assassin'], 0, 1);
 
-modules.export = {
+module.exports = {
   orcLordMace,
   herbalPotion,
   strongBandages,
