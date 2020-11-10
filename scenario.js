@@ -86,7 +86,7 @@ const theWoodsman = new Senario('Find Another Way In', `Your team decides you ar
 
 
 // NPC 2
-
+const theOldFriend = new Senario('The Old Friend', `You make your way into the kingdom, surprised that their aren’t guards stationed more closely together. The area immediately surrounding the gate entrance is a sort of mini hub with a small inn and stable. Surprisingly no one has come out to see what the commotion was, but perhaps they are used to hearing the guard engage in battle. Eventually a change of guards will occur and someone will notice a dead Orc captain laying across the entrance to the kingdom. For now you decide it’s best to get as far into the countryside as possible where you won’t come into contact with the perimeter patrols. As you are walking past the inn you hear a shout, “hey! You there! Ogre!”. A robust man of a somewhat small stature comes towards you and calls out to ${char.ogre.name} by name. “Well I haven’t seen you since the battle of Meridorn! How you doin old pal?! Still bashing in brains I see” the loud man says with a quick glance at  ${char.ogre.name}’s new Mace. ${char.hunter.name} interrupts and proclaims loudly “I am sorry sir but you must be thinking of someone else! We don’t know you or have any idea what you are referring too!” He makes large eyes and a shushing gesture at the man. The man looks bewildered and starts back up, clearly a ways in to his cups “Sure you know me! Why remember the time that we-“ Just at that moment ${char.wizard.name} puts a silence spell on the man, and not a second too soon. A small group of soldiers is visible walking the inner perimeter of the wall towards you. The man puts his hands to his mouth with panic in his eyes, clearly trying to speak, though no words are coming out. Ogre wraps his big arm around the mans shoulder and you nonchalantly guide the man down the street away from the guards. ${char.wizard.name} says to the man “I am going to take the spell off but you need to be very quiet. We need to get out of here before those guards realize there is anything wrong. Is there somewhere you can take us?” The now quiet man seems to catch on and looks at them shrewdly before nodding. {char.wizard.name} removes the spell without the slightest gesture and the man, having gotten his voice back, whispers “this way” and leads you down an alley. “We are going to have to run. It is quite a while before the edge of the woods where we won’t be in the sight line of the perimeter guard.” He seems to have sobered up quite a bit with the shock of being unable to speak for a while. ${char.assassin.name} says “lead the way”, and you all take off at a run.`, null, theVillage);
 
 //BOSS 1 : Orc Lord
 const theOrcLordChoices = {
@@ -116,6 +116,8 @@ module.exports = {
   intro,
   atTheWall,
   theOrcLord,
+  theOldFriend,
+  theWoodsman,
   cityAroundThePalace,
   hornedAnimal,
   mageSmith
