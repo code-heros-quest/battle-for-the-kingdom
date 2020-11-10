@@ -21,9 +21,31 @@ io.on('connection', (socket) =>{
     console.log(`${socket.id} has connected`);
     //emit for each senario
     //on for each scenario
+  //   intro,
+  //   atTheWall,
+  //   theOrcLord, *
+  //   theOldFriend, *
+  //   theWoodsman, *
+  //   theVillage,
+  //   thePoisonousBite, *
+  //   theGoblin, *
+  //   theTroll,
+  //   theMerchant,
+  //   theWitch,
+  //   theHydra,
+  //   rebellion
+  //   cityAroundThePalace,
+  //   hornedAnimal,
+  //   mageSmith
+  //   theKing
+    socket.emit('into', senario.intro);
+    // this gets sent to the client, they read the dialogue, and hit some type of move on button. Then they send move on or whatever and we send the next one... figure out how to wait for all 4
     socket.emit('cityAroundThePalace', senario.cityAroundThePalace);
     socket.on('cityAroundThePalace', result => {
+
+      // choice instances, get back all choices, run a function that puts each choice in an array, when the length is 4 then evaluate which choice got the most votes, if tied - pick random, emit senario choice with the most votes
       // counter++
+      // runa functions that counts
       //minstrals got most votes 
       // michael make arrays your fav
       socket.emit('cityAroundThePalaceChoice', senario.cityAroundThePalace.choices.choice2)
@@ -72,11 +94,11 @@ function riddle(){
    
 
 function choiceVote(result) {
-  if (result.number === 1) {
+  if (result.num === 1) {
     ch1++
-  } else if (result.number === 2) {
+  } else if (result.num === 2) {
     ch2++
-  } else if (result.number === 3) {
+  } else if (result.num === 3) {
     ch3++
   }
 
@@ -94,3 +116,10 @@ function choiceVote(result) {
     return finalVote;
   }
 }
+
+
+
+// function moveOn(?, eventName, senario) {
+//   if we get all for checks back to move on
+//   socket.emit(eventName, senario);
+// }

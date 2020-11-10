@@ -8,7 +8,11 @@ const inquirer = require('inquirer');
 
 client.on('connect', () => {
   console.log('Player Connected');
-
+  client.on('intro', payload => {
+    console.log(payload.title);
+    console.log(payload.dialogue);
+    readyCheckFunction()
+  })
   client.on('cityAroundThePalace', function (data) {
     console.log(data.name);
     console.log(data.dialogue);
