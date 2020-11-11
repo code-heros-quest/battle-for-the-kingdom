@@ -4,125 +4,143 @@ const client = ioClient('ws://localhost:3000');
 const inquirer = require('inquirer');
 
 
+
 client.on('connect', () => {
-  console.log('Player Connected');
-  client.on('intro', scenario => {
-    console.log(scenario.name);
-    console.log(scenario.dialogue);
-    readyStatus('introReady');
-  })
-  client.on('atTheWall', scenario => {
-    console.log(scenario.name);
-    console.log(scenario.dialogue);
-    choiceFunction2(scenario, 'atTheWallChoice');
-  })
-  client.on('atTheWallChosen', scenario => {
-    console.log(scenario.name);
-    console.log(scenario.dialogue);
-    roll('atTheWallChosen');
-  })
-  client.on('theWoodsMan', scenario => {
-    console.log(scenario.name);
-    console.log(scenario.dialogue);
-    roll('theWoodsmanRoll')
-  })
-  client.on('theWoodsManRollResult', result => {
-    console.log(result.dialogue)
-    readyStatus('theWoodsmanReady');
-  } )
-  client.on('theOrcLordRollResult', result => {
-    console.log(result.dialogue)
-    readyStatus('theOrcLordReady');
-  })
-  client.on('theVillage', scenario => {
-    console.log(scenario.name);
-    console.log(scenario.dialogue);
-    choiceFunction2(scenario, 'theVillageChoice');
-  })
-  client.on('theVillageChosen', scenario => {
-    console.log(scenario.name);
-    console.log(scenario.dialogue);
-    if (scenario.name === 'The Goblin') {
-      roll('The Goblin');
-    } else {
-      readyStatus('thePoisonousBiteReady');
-    }
-  })
-  client.on('theGoblinResult', result => {
-    console.log(result.dialogue)
-    readyStatus('theGoblinReady');
-  });
-  client.on('theTroll', scenario => {
-    console.log(scenario.name);
-    console.log(scenario.dialogue);
-    roll('theTroll');
-  })
-  client.on('theTrollResult', result => {
-    console.log(result.dialogue)
-    readyStatus('theTrollReady');
-  })
-  client.on('theMerchant', scenario => {
-    console.log(scenario.name);
-    console.log(scenario.dialogue);
-    riddle(scenario, 'theMerchantRiddle');
-  })
-  client.on('theMerchantResults', results => {
-    console.log(result.dialogue)
-    readyStatus('theMerchantReady');
-  })
-  client.on('theWitch', scenario => {
-    console.log(scenario.name);
-    console.log(scenario.dialogue);
-    riddle(scenario, 'theWitchRiddle');
-  });
-  client.on('theWitchResults', results => {
-    console.log(result.dialogue)
-    readyStatus('theWitchReady');
-  })
-  client.on('theHydra', scenario => {
-    console.log(scenario.name);
-    console.log(scenario.dialogue);
-    roll('theHydra');
-  });
-  client.on('theHydraResult', result => {
-    console.log(result.dialogue)
-    readyStatus('theHydraReady');
-  })
-  client.on('rebellion', scenario => {
-    console.log(scenario.name);
-    console.log(scenario.dialogue);
-    roll('rebellion');
-  })
-  client.on('rebellionResult', result => {
-    console.log(result.dialogue)
-    readyStatus('rebellionReady');
-  })
-  client.on('cityAroundThePalace', scenario => {
-    console.log(scenario.name);
-    console.log(scenario.dialogue);
-    choiceFunction3(scenario, 'cityAroundThePalaceChoice');
-  })
-  client.on('cityAroundThePalaceChosen', choice => {
-    console.log(choice.dialogue);
-    readyStatus('cityAroundThePalaceReady');
-  });
-  client.on('hornedAnimal', scenario => {
-    console.log(scenario.name);
-    console.log(scenario.dialogue);
-    readyStatus('hornedAnimalReady');
-  })
-  client.on('mageSmith', scenario => {
-    console.log(scenario.name);
-    console.log(scenario.dialogue);
-    choiceFunction3(scenario, 'mageSmithChoice');
-  })
-  client.on('mageSmithChosen', choice => {
-    console.log(choice.dialogue);
-    readyStatus('mageSmithReady');
-  })
-  client.on('theKing', scenario => {
-  })
+  console.log('Player Connected')});
+client.on('intro', scenario => {
+  spaces();
+  console.log(scenario.name);
+  console.log(scenario.dialogue);
+  readyStatus('introReady');
+})
+client.on('atTheWall', scenario => {
+  spaces();
+  console.log(scenario.name);
+  console.log(scenario.dialogue);
+  choiceFunction2(scenario, 'atTheWallChoice');
+})
+client.on('atTheWallChosen', scenario => {
+  spaces();
+  console.log(scenario.name);
+  console.log(scenario.dialogue);
+  roll('theOrcLordRoll');
+})
+client.on('theWoodsMan', scenario => {
+  spaces();
+  console.log(scenario.name);
+  console.log(scenario.dialogue);
+  roll('theWoodsmanRoll')
+})
+client.on('theWoodsManResult', result => {
+  spaces();
+  console.log(result.dialogue)
+  readyStatus('theWoodsmanReady');
+})
+client.on('theOrcLordResult', result => {
+  spaces();
+  console.log(result.choiceName);
+  console.log(result.dialogue);
+  readyStatus('theOrcLordReady');
+})
+client.on('theOldFriend', scenario => {
+  spaces();
+  console.log(scenario.name);
+  console.log(scenario.dialogue);
+  readyStatus('theOldFriendReady');
+})
+client.on('theVillage', scenario => {
+  spaces();
+  console.log(scenario.name);
+  console.log(scenario.dialogue);
+  choiceFunction2(scenario, 'theVillageChoice');
+})
+client.on('theVillageChosen', scenario => {
+  spaces();
+  console.log(scenario.name);
+  console.log(scenario.dialogue);
+  if (scenario.name === 'The Goblin') {
+    roll('theGoblinRoll');
+  } else {
+    readyStatus('thePoisonousBiteReady');
+  }
+})
+client.on('theGoblinResult', result => {
+  console.log(result.dialogue)
+  readyStatus('theGoblinReady');
 });
+client.on('theTroll', scenario => {
+  console.log(scenario.name);
+  console.log(scenario.dialogue);
+  roll('theTrollRoll');
+})
+client.on('theTrollResult', result => {
+  console.log(result.dialogue)
+  readyStatus('theTrollReady');
+})
+client.on('theMerchant', scenario => {
+  console.log(scenario.name);
+  console.log(scenario.dialogue);
+  riddle(scenario, 'theMerchantRiddle');
+})
+client.on('theMerchantResults', results => {
+  console.log(result.dialogue)
+  readyStatus('theMerchantReady');
+})
+client.on('theWitch', scenario => {
+  console.log(scenario.name);
+  console.log(scenario.dialogue);
+  riddle(scenario, 'theWitchRiddle');
+});
+client.on('theWitchResults', results => {
+  console.log(result.dialogue)
+  readyStatus('theWitchReady');
+})
+client.on('theHydra', scenario => {
+  console.log(scenario.name);
+  console.log(scenario.dialogue);
+  roll('theHydraRoll');
+});
+client.on('theHydraResult', result => {
+  console.log(result.dialogue)
+  readyStatus('theHydraReady');
+})
+client.on('rebellion', scenario => {
+  console.log(scenario.name);
+  console.log(scenario.dialogue);
+  roll('rebellionRoll');
+})
+client.on('rebellionResult', result => {
+  console.log(result.dialogue)
+  readyStatus('rebellionReady');
+})
+client.on('cityAroundThePalace', scenario => {
+  console.log(scenario.name);
+  console.log(scenario.dialogue);
+  choiceFunction3(scenario, 'cityAroundThePalaceChoice');
+})
+client.on('cityAroundThePalaceChosen', choice => {
+  console.log(choice.dialogue);
+  readyStatus('cityAroundThePalaceReady');
+});
+client.on('hornedAnimal', scenario => {
+  console.log(scenario.name);
+  console.log(scenario.dialogue);
+  readyStatus('hornedAnimalReady');
+})
+client.on('mageSmith', scenario => {
+  console.log(scenario.name);
+  console.log(scenario.dialogue);
+  choiceFunction3(scenario, 'mageSmithChoice');
+})
+client.on('mageSmithChosen', choice => {
+  console.log(choice.dialogue);
+  readyStatus('mageSmithReady');
+})
+client.on('theKing', scenario => {
+})
+client.on('disconnect', message => {
+  console.log('DISCONNECTED!', message);
+})
 
 
 function riddle(scenario, emitStr) {
@@ -272,6 +290,7 @@ function roll(emitStr){
   });
 }
 
-
-
-
+function spaces() {
+  console.log('');
+  console.log('');
+}
