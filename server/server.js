@@ -23,7 +23,7 @@ io.on('connection', (socket) =>{
   counter++;
   if(counter === 4){
     console.log(`${socket.id} has connected`);
-    socket.emit('intro', scenario.intro)
+    io.emit('intro', scenario.intro)
 
   }
     socket.on('introReady', ready => {
@@ -164,7 +164,7 @@ io.on('connection', (socket) =>{
             readyCount++;
           }
           if(readyCount === 4){
-            socket.emit(emitStr, scenario);
+            io.emit(emitStr, scenario);
             console.log('readycount was 1');
             readyCount = 0;
           }
