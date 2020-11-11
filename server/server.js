@@ -20,8 +20,12 @@ let ch3 = 0;
 let tempArr = [];
 
 io.on('connection', (socket) =>{
+  counter++;
+  if(counter === 4){
     console.log(`${socket.id} has connected`);
     socket.emit('intro', scenario.intro)
+
+  }
     socket.on('introReady', ready => {
       readyStatus(ready, 'atTheWall', scenario.atTheWall);
       
@@ -159,7 +163,7 @@ io.on('connection', (socket) =>{
           if(result){
             readyCount++;
           }
-          if(readyCount === 1){
+          if(readyCount === 4){
             socket.emit(emitStr, scenario);
             console.log('readycount was 1');
             readyCount = 0;
@@ -189,16 +193,16 @@ io.on('connection', (socket) =>{
           ch3++
         }
         } if(ch1 > ch2 && ch1 > ch3){
-          socket.emit(emitStr, choice1);
+          io.emit(emitStr, choice1);
         } else if(ch2 > ch1 && ch2 > ch3){
-          socket.emit(emitStr, choice2);
+          io.emit(emitStr, choice2);
         } else if (ch3 > ch2 && ch3 > ch1){
-          socket.emit(emitStr, choice3);
+          io.emit(emitStr, choice3);
         }
         else {
           let randChoice = [null, choice1, choice2, choice3];
           let answer = Math.floor(Math.random() * (tempArr.length - 1) + 1);
-          socket.emit(emitStr, randChoice[answer]);
+          io.emit(emitStr, randChoice[answer]);
         }
       
       } 
