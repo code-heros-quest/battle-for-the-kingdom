@@ -18,6 +18,8 @@ let ch1 = 0;
 let ch2 = 0;
 let ch3 = 0;
 let tempArr = [];
+let choiceArr = [];
+let playerCount = 0;
 
 io.on('connection', (socket) =>{
   counter++;
@@ -32,30 +34,34 @@ io.on('connection', (socket) =>{
     })
 
     socket.on('atTheWallChoice', choices => {
+      console.log('I am in atTheWallChoice');
       choiceVote(choices, 'atTheWallChosen', scenario.theOrcLord, scenario.theWoodsman, null)
 
     })
     socket.on('theWoodsmanRoll', rolls => {
-      dicePick(rolls, 'theWoodsManRollResult', scenario.theWoodsman.choices.choice1, scenario.theWoodsman.choices.choice2, scenario.theWoodsman.choices.choice3);
+      dicePick(rolls, 'theWoodsManResult', scenario.theWoodsman.choices.lowRoll, scenario.theWoodsman.choices.medRoll, scenario.theWoodsman.choices.highRoll);
       // evaluate rolls and affect player health, 
     })
     socket.on('theWoodsmanReady', ready => {
       readyStatus(ready, 'theVillage', scenario.theVillage)
     })
     socket.on('theOrcLordRoll', rolls => {
+      console.log('evaluating orc lord roll');
       // evaluate rolls and affect player health, 
       // add object to player
-      dicePick(rolls, 'theOrcLordRollResult', scenario.theOrcLord.choices.choice1, scenario.theOrcLord.choices.choice2, scenario.theOrcLord.choices.choice3)
+      dicePick(rolls, 'theOrcLordResult', scenario.theOrcLord.choices.lowRoll, scenario.theOrcLord.choices.medRoll, scenario.theOrcLord.choices.highRoll)
     })
     socket.on('theOrcLordReady', ready => {
-      readyStatus(ready, 'atTheWall', scenario.atTheWall)
-      socket.emit('theVillage', scenario.theVillage);
+      readyStatus(ready, 'theOldFriend', scenario.theOldFriend);
+    })
+    socket.on('theOldFriendReady', ready => {
+      readyStatus(ready, 'theVillage', scenario.theVillage);
     })
     socket.on('theVillageChoice', choices => {
-      choiceVote(choices, theVillageChosen, scenario.theGoblin, scenario.thePoinsonousBite, null)
+      choiceVote(choices, 'theVillageChosen', scenario.theGoblin, scenario.thePoinsonousBite, null)
     })
     socket.on('theGoblinRoll', rolls => {
-      dicePick(rolls, 'theGoblinResult', scenario.theGoblin.choices.choice1, scenario.theGoblin.choices.choice2, scenario.theGoblin.choices.choice3)
+      dicePick(rolls, 'theGoblinResult', scenario.theGoblin.choices.lowRoll, scenario.theGoblin.choices.medRoll, scenario.theGoblin.choices.highRoll)
       // evaluate rolls and affect player health
       // add object to players 
     })
@@ -69,7 +75,7 @@ io.on('connection', (socket) =>{
     socket.on('theTrollRoll', rolls => {
       // evaluate rolls and affect player health
       // add object to players 
-      dicePick(rolls, 'theTrollResult', scenario.theTroll.choices.choice1, scenario.theTroll.choices.choice2, scenario.theTroll.choices.choice3)
+      dicePick(rolls, 'theTrollResult', scenario.theTroll.choices.lowRoll, scenario.theTroll.choices.medRoll, scenario.theTroll.choices.highRoll)
     })
     socket.on('theTrollReady', ready => {
     
@@ -93,7 +99,7 @@ io.on('connection', (socket) =>{
     })
     socket.on('theHydraRoll', rolls => {
       // evaluate rolls and affect player health
-      // socket.emit('theHydraResult', scenario.theHydra.choices//whichChoice);
+      // socket.emit('theHydraRollResult', scenario.theHydra.choices//whichChoice);
     })
     socket.on('theHydraReady', ready => {
       readyStatus(ready, 'rebellion', scenario.rebellion);
@@ -165,11 +171,11 @@ io.on('connection', (socket) =>{
           }
           if(readyCount === 4){
             io.emit(emitStr, scenario);
-            console.log('readycount was 1');
+            console.log('ready count has reached 4');
             readyCount = 0;
           }
           else{
-            console.log('issue in count');
+            console.log(readyCount, ' is the count');
           }        
         }
 
@@ -194,55 +200,78 @@ io.on('connection', (socket) =>{
         }
         } if(ch1 > ch2 && ch1 > ch3){
           io.emit(emitStr, choice1);
+          tempArr = [];
         } else if(ch2 > ch1 && ch2 > ch3){
           io.emit(emitStr, choice2);
+          tempArr = [];
         } else if (ch3 > ch2 && ch3 > ch1){
           io.emit(emitStr, choice3);
+          tempArr = [];
         }
         else {
           let randChoice = [null, choice1, choice2, choice3];
           let answer = Math.floor(Math.random() * (tempArr.length - 1) + 1);
           io.emit(emitStr, randChoice[answer]);
+          tempArr = [];
         }
       
       } 
     }
 
    // ---------- DICE PICK ------------- //
+
+    
+    
     function dicePick(result, emitStr, choice1, choice2, choice3){
-      
-      let choiceArr = [];
+      console.log('in function dice roll');
+      console.log('I am the result ' + result);
+      playerCount++;
       choiceArr.push(result);
       let count = 0;
       console.log(choiceArr);
-  
-      for (let i = 0; i < choiceArr.length; i++){
-       count += parseInt(choiceArr[i]);     
-       }
-       if(count <= 8){
-         socket.emit(emitStr, choice1)
-        //  for (character in char) {
-        //    character.loseHealth(choice1.fightDamage)
-        //  }
-       } 
-       else if(count > 8 && count <= 16){
-         socket.emit(emitStr, choice2)
-       }
-       else if(count >= 16) {
-         socket.emit(emitStr, choice3);
-       }
-       else {
-         socket.emit(emitStr, choice2);
-       }
-     
-     }
+      if(playerCount === 4){
+        console.log('this how many rolls', playerCount);
+        for (let i = 0; i < choiceArr.length; i++){
+          count += parseInt(choiceArr[i]);     
+        }
+        if(count <= 8){
+          console.log('bad roll');
+          io.emit(emitStr, choice1)
+          choiceArr =[]
+          //  for (character in char) {
+            //    character.loseHealth(choice1.fightDamage)
+            //  }
+            playerCount = 0;
+          } 
+          else if(count > 8 && count <= 16){
+            console.log('med roll');
+            io.emit(emitStr, choice2)
+            choiceArr =[]
+            playerCount = 0;
+          }
+          else if(count >= 16) {
+            console.log('good roll');
+            io.emit(emitStr, choice3);
+            choiceArr =[]
+            playerCount = 0;
+          }
+          else {
+            io.emit(emitStr, choice2);
+            choiceArr =[]
+            playerCount = 0;
+          }
+          
+    }
+  }
 })
 
 
-   
-
-
-
+function riddleEvaluator(scenario, payload) {
+  if (scenario.includes(payload.answer)) {
+    // add the prize to the char whose roll matches payload.role
+    return 1
+  }
+}
 
 
 
