@@ -11,7 +11,7 @@ const scenario = require('../scenario.js')
 let welcomeObj = {
     intro: 'welcome to the Code Quest'
 }
-
+let readyCount = 0;
 let counter = 0;
 let ch1 = 0;
 let ch2 = 0;
@@ -20,16 +20,20 @@ let tempArr = [];
 
 io.on('connection', (socket) =>{
     console.log(`${socket.id} has connected`);
-    //socket.emit(intro, scenario.intro);
+    socket.emit('intro', scenario.intro);
+
+    // socket.emit('intro', scenario.intro);
+
     socket.on('introReady', ready => {
-      //if ready
-      //socket.emit('atTheWall', scenario.atTheWall)
+      readyStatus(ready, 'atTheWall', scenario.atTheWall);
+      
     })
     socket.on('atTheWallChoice', choices => {
       //evaluate vote either go on to orc OR woodsman
-      //socket.emit('atTheWallChosen', scenario.theOrcLord || scenario.theWoodsman);
+      socket.emit('atTheWallChosen', scenario.theOrcLord || scenario.theWoodsman);
     })
     socket.on('theWoodsmanRoll', rolls => {
+      // dicePick(rolls);
       // evaluate rolls and affect player health, 
       // socket.emit('theWoodsManRollResult', scenario.theWoodsman.choices//whichChoice);
     })
@@ -150,16 +154,38 @@ io.on('connection', (socket) =>{
   //   hornedAnimal,
   //   mageSmith
   //   theKing
-    socket.emit('into', scenario.intro);
+    // socket.emit('into', scenario.intro);
     // this gets sent to the client, they read the dialogue, and hit some type of move on button. Then they send move on or whatever and we send the next one... figure out how to wait for all 4
-    socket.emit('cityAroundThePalace', scenario.cityAroundThePalace);
-    socket.on('cityAroundThePalace', (result) => {
-      console.log(result.choiceName);
-      choiceVote(result, 'cityAroundThePalaceChosen', scenario.cityAroundThePalace.choices.choice1, scenario.cityAroundThePalace.choices.choice2, scenario.cityAroundThePalace.choices.choice3);
-    })
+    // socket.emit('cityAroundThePalace', scenario.cityAroundThePalace);
+    // socket.on('cityAroundThePalace', (result) => {
+    //   console.log(result.choiceName);
+    //   choiceVote(result, 'cityAroundThePalaceChosen', scenario.cityAroundThePalace.choices.choice1, scenario.cityAroundThePalace.choices.choice2, scenario.cityAroundThePalace.choices.choice3);
+    // })
+
+
+
+    //------------------ READY FUNCTION ----------------//
+    function readyStatus (result, emitStr, scenario) {
+      
+        
+          if(result){
+            readyCount++;
+          }
+          if(readyCount === 1){
+            socket.emit(emitStr, scenario);
+            console.log('readycount was 1');
+            readyCount = 0;
+          }
+          else{
+            console.log('issue in count');
+          }
+          
+        }
 
     
 
+    
+    // ------------------ CHOICE SCENARIOS ----------------//
     function choiceVote(result, emitStr, choice1, choice2, choice3) {
       tempArr.push(result);
     let ch1 = 0;
@@ -188,13 +214,35 @@ io.on('connection', (socket) =>{
           
           socket.emit(emitStr, randChoice[answer]);
         }
+      
       } 
-      temp
-    
     }
-    
-    
-    
+
+    //---------- DICE PICK ------------- //
+    // function dicePick(result){
+      
+    //   let choiceArr = [];
+    //   choiceArr.push(result);
+    //   let count = 0;
+    //   console.log(choiceArr);
+  
+    //   for (let i = 0; i < choiceArr.length; i++){
+    //    count += parseInt(choiceArr[i]);     
+    //    }
+    //    if(count <= 8){
+    //      socket.emit(emitStr, choice1)
+    //    } 
+    //    else if(count > 8 && count <= 16){
+    //      socket.emit(emitStr, choice2)
+    //    }
+    //    else if(count >= 16) {
+    //      socket.emit(emitStr, choice3);
+    //    }
+    //    else {
+    //      socket.emit (emitStr, choice2);
+    //    }
+     
+    //  }
 })
 
 
