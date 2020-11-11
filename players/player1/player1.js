@@ -10,7 +10,6 @@ client.on('connect', () => {
     console.log(scenario.name);
     console.log(scenario.dialogue);
     readyStatus('introReady');
-    // prompt for ready, emit ready check result
   })
   client.on('atTheWall', scenario => {
     console.log(scenario.name);
@@ -20,23 +19,20 @@ client.on('connect', () => {
   client.on('atTheWallChosen', scenario => {
     console.log(scenario.name);
     console.log(scenario.dialogue);
-
-    // prompt for roll return roll results
+    roll('atTheWallChosen');
   })
   client.on('theWoodsMan', scenario => {
     console.log(scenario.name);
     console.log(scenario.dialogue);
     roll('theWoodsmanRoll')
-    // prompt for roll return roll results
   })
   client.on('theWoodsManRollResult', result => {
-
-    //console.log(result.dialogue)
-    // prompt for ready, emit ready check
+    console.log(result.dialogue)
+    readyStatus('theWoodsmanReady');
   } )
   client.on('theOrcLordRollResult', result => {
-    //console.log(result.dialogue)
-    // prompt for ready, emit ready check - theOrcLordReady
+    console.log(result.dialogue)
+    readyStatus('theOrcLordReady');
   })
   client.on('theVillage', scenario => {
     console.log(scenario.name);
@@ -47,23 +43,23 @@ client.on('connect', () => {
     console.log(scenario.name);
     console.log(scenario.dialogue);
     if (scenario.name === 'The Goblin') {
-      // prompt for roll return roll results
+      roll('The Goblin');
     } else {
-      // it is the poisonousSpider, prompt for ready and return results
+      readyStatus('thePoisonousBiteReady');
     }
   })
   client.on('theGoblinResult', result => {
-    //console.log(result.dialogue)
-    // prompt for ready, emit ready check - theGoblinReady
+    console.log(result.dialogue)
+    readyStatus('theGoblinReady');
   });
   client.on('theTroll', scenario => {
     console.log(scenario.name);
     console.log(scenario.dialogue);
-    // prompt for roll return roll results
+    roll('theTroll');
   })
   client.on('theTrollResult', result => {
-    //console.log(result.dialogue)
-    // prompt for ready, emit ready check - theTrollReady
+    console.log(result.dialogue)
+    readyStatus('theTrollReady');
   })
   client.on('theMerchant', scenario => {
     console.log(scenario.name);
@@ -71,8 +67,8 @@ client.on('connect', () => {
     riddle(scenario, 'theMerchantRiddle');
   })
   client.on('theMerchantResults', results => {
-    //console.log(result.dialogue)
-    // prompt for ready, emit ready check - theMerchantReady
+    console.log(result.dialogue)
+    readyStatus('theMerchantReady');
   })
   client.on('theWitch', scenario => {
     console.log(scenario.name);
@@ -80,26 +76,26 @@ client.on('connect', () => {
     riddle(scenario, 'theWitchRiddle');
   });
   client.on('theWitchResults', results => {
-    //console.log(result.dialogue)
-    // prompt for ready, emit ready check - theWitchReady
+    console.log(result.dialogue)
+    readyStatus('theWitchReady');
   })
   client.on('theHydra', scenario => {
     console.log(scenario.name);
     console.log(scenario.dialogue);
-    // prompt for roll return roll results
+    roll('theHydra');
   });
   client.on('theHydraResult', result => {
-    //console.log(result.dialogue)
-    // prompt for ready, emit ready check - theHydraReady
+    console.log(result.dialogue)
+    readyStatus('theHydraReady');
   })
   client.on('rebellion', scenario => {
     console.log(scenario.name);
     console.log(scenario.dialogue);
-    // prompt for roll return roll results
+    roll('rebellion');
   })
   client.on('rebellionResult', result => {
-    //console.log(result.dialogue)
-    // prompt for ready, emit ready check - rebellionReady
+    console.log(result.dialogue)
+    readyStatus('rebellionReady');
   })
   client.on('cityAroundThePalace', scenario => {
     console.log(scenario.name);
@@ -108,12 +104,12 @@ client.on('connect', () => {
   })
   client.on('cityAroundThePalaceChosen', choice => {
     console.log(choice.dialogue);
-    // prompt for ready, emit ready check - cityAroundThePalaceReady
+    readyStatus('cityAroundThePalaceReady');
   });
   client.on('hornedAnimal', scenario => {
     console.log(scenario.name);
     console.log(scenario.dialogue);
-    // prompt for ready, emit ready check - hornedAnimalReady
+    readyStatus('hornedAnimalReady');
   })
   client.on('mageSmith', scenario => {
     console.log(scenario.name);
@@ -122,11 +118,13 @@ client.on('connect', () => {
   })
   client.on('mageSmithChosen', choice => {
     console.log(choice.dialogue);
-    // prompt for ready, emit ready check - mageSmithReady
+    readyStatus('mageSmithReady');
   })
   client.on('theKing', scenario => {
   })
 });
+
+
 function riddle(scenario, emitStr) {
   inquirer
   .prompt([
@@ -140,6 +138,7 @@ function riddle(scenario, emitStr) {
     client.emit(emitStr, answer.guess);
   });
 }
+
 function choiceFunction2(scenario, emitStr){
   inquirer
     .prompt([

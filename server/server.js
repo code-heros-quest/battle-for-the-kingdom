@@ -5,7 +5,8 @@ const hub = io.of('/server');
 const inquirer = require('inquirer');
 
 
-const scenario = require('../scenario.js')
+const scenario = require('../scenario.js');
+const char = require('../characters.js');
 
 
 let welcomeObj = {
@@ -20,61 +21,55 @@ let tempArr = [];
 
 io.on('connection', (socket) =>{
     console.log(`${socket.id} has connected`);
-    socket.emit('intro', scenario.intro);
-
-    // socket.emit('intro', scenario.intro);
-
+    socket.emit('intro', scenario.intro)
     socket.on('introReady', ready => {
       readyStatus(ready, 'atTheWall', scenario.atTheWall);
       
     })
+
     socket.on('atTheWallChoice', choices => {
-      //evaluate vote either go on to orc OR woodsman
-      socket.emit('atTheWallChosen', scenario.theOrcLord || scenario.theWoodsman);
+      choiceVote(choices, 'atTheWallChosen', scenario.theOrcLord, scenario.theWoodsman, null)
+
     })
     socket.on('theWoodsmanRoll', rolls => {
-      // dicePick(rolls);
+      dicePick(rolls, 'theWoodsManRollResult', scenario.theWoodsman.choices.choice1, scenario.theWoodsman.choices.choice2, scenario.theWoodsman.choices.choice3);
       // evaluate rolls and affect player health, 
-      // socket.emit('theWoodsManRollResult', scenario.theWoodsman.choices//whichChoice);
     })
     socket.on('theWoodsmanReady', ready => {
-      //if ready
-      //socket.emit('theVillage', scenario.theVillage);
+      readyStatus(ready, 'theVillage', scenario.theVillage)
     })
     socket.on('theOrcLordRoll', rolls => {
       // evaluate rolls and affect player health, 
       // add object to player
-      // socket.emit('theOrcLordRollResult', scenario.theOrcLord.choices//whichChoice);
+      dicePick(rolls, 'theOrcLordRollResult', scenario.theOrcLord.choices.choice1, scenario.theOrcLord.choices.choice2, scenario.theOrcLord.choices.choice3)
     })
     socket.on('theOrcLordReady', ready => {
-      //if ready
-      //socket.emit('theVillage', scenario.theVillage);
+      readyStatus(ready, 'atTheWall', scenario.atTheWall)
+      socket.emit('theVillage', scenario.theVillage);
     })
     socket.on('theVillageChoice', choices => {
-      //evaluate vote either go on to thePoisonousBite || goblin
-      //socket.emit('atTheWallChosen', scenario.thePoisonousBite || scenario.goblin);
+      choiceVote(choices, theVillageChosen, scenario.theGoblin, scenario.thePoinsonousBite, null)
     })
     socket.on('theGoblinRoll', rolls => {
+      dicePick(rolls, 'theGoblinResult', scenario.theGoblin.choices.choice1, scenario.theGoblin.choices.choice2, scenario.theGoblin.choices.choice3)
       // evaluate rolls and affect player health
       // add object to players 
-      // socket.emit('theGoblinResult', scenario.theGoblin.choices//whichChoice);
     })
     socket.on('theGoblinReady', ready => {
-      //if ready
-      //socket.emit('theTroll', scenario.theTroll);
+      readyStatus(ready, 'theTroll', scenario.theTroll);
     })
     socket.on('thePoisonousBiteReady', ready => {
       //affect player health 
-      //socket.emit('theTroll', scenario.theTroll);
+      readyStatus(ready, 'theTroll', scenario.theTroll);
     })
     socket.on('theTrollRoll', rolls => {
       // evaluate rolls and affect player health
       // add object to players 
-      // socket.emit('theTrollResult', scenario.theTroll.choices//whichChoice);
+      dicePick(rolls, 'theTrollResult', scenario.theTroll.choices.choice1, scenario.theTroll.choices.choice2, scenario.theTroll.choices.choice3)
     })
     socket.on('theTrollReady', ready => {
-      //if ready
-      //socket.emit('theMerchant', scenario.theMerchant);
+    
+      readyStatus(ready, 'theMerchant', scenario.theMerchant);
     })
     socket.on('theMerchantRiddle', answers => {
       //how are we doing this? evaluating by person or as a group?
@@ -82,8 +77,7 @@ io.on('connection', (socket) =>{
       // socket.emit('theMerchantResults', scenario.theMerchant.choices??);
     })
     socket.on('theMerchantReady', ready => {
-      //if ready
-      //socket.emit('theWitch', scenario.theWitch);
+      readyStatus(ready, 'theWitch', scenario.theWitch);
     })
     socket.on('theWitchRiddle', answers => {
       //how are we doing this? evaluating by person or as a group?
@@ -91,16 +85,14 @@ io.on('connection', (socket) =>{
       // socket.emit('theWitchResults', scenario.theWitch.choices??);
     })
     socket.on('theWitchReady', ready => {
-      //if ready
-      //socket.emit('theHydra', scenario.theHydra);
+      readyStatus(ready, 'theHydra', scenario.theHydra);
     })
     socket.on('theHydraRoll', rolls => {
       // evaluate rolls and affect player health
       // socket.emit('theHydraResult', scenario.theHydra.choices//whichChoice);
     })
     socket.on('theHydraReady', ready => {
-      //if ready
-      //socket.emit('rebellion', scenario.rebellion);
+      readyStatus(ready, 'rebellion', scenario.rebellion);
     })
     socket.on('rebellionRoll', rolls => {
       /// not sure if this will be a roll or not
@@ -108,20 +100,17 @@ io.on('connection', (socket) =>{
       // socket.emit('rebellionResult', scenario.rebellion.choices//whichChoice)
     })
     socket.on('rebellionReady', ready => {
-      //if ready
-      //socket.emit('cityAroundThePalace', scenario.cityAroundThePalace);
+      readyStatus(ready, 'cityAroundThePalace', scenario.cityAroundThePalace);
     })
     socket.on('cityAroundThePalaceChoice', choices => {
       // evaluate choices
       // socket.emit('cityAroundThePalaceChosen', scenario.cityAroundThePalace.choices//whichChoice);
     })
     socket.on('cityAroundThePalaceReady', ready => {
-      // if ready
-      //socket.emit('hornedAnimal', scenario.hornedAnimal);
+      readyStatus(ready, 'hornedAnimal', scenario.hornedAnimal);
     })
     socket.on('hornedAnimalReady', ready => {
-      // if ready
-      //socket.emit('mageSmith', scenario.mageSmith);
+      readyStatus(ready, 'mageSmith', scenario.mageSmith);
     })
     socket.on('mageSmithChoice', choices => {
       // evaluate choices
@@ -129,8 +118,9 @@ io.on('connection', (socket) =>{
       // socket.emit('mageSmithChosen', scenario.mageSmith.choices ??)
     })
     socket.on('mageSmithReady', ready => {
-       // if ready
-      //socket.emit('theKing', scenario.theKing);
+  
+      readyStatus(ready, 'theKing', scenario.theKing);
+      
     })
 
 
@@ -165,9 +155,7 @@ io.on('connection', (socket) =>{
 
 
     //------------------ READY FUNCTION ----------------//
-    function readyStatus (result, emitStr, scenario) {
-      
-        
+    function readyStatus (result, emitStr, scenario) { 
           if(result){
             readyCount++;
           }
@@ -178,8 +166,7 @@ io.on('connection', (socket) =>{
           }
           else{
             console.log('issue in count');
-          }
-          
+          }        
         }
 
     
@@ -192,7 +179,7 @@ io.on('connection', (socket) =>{
     let ch2 = 0;
     let ch3 = 0;
     
-      if (tempArr.length === 3){
+      if (tempArr.length === 4){
         for (let i = 0; i < tempArr.length; i++){
         if (tempArr[i].num === 1) {
           ch1++
@@ -211,38 +198,40 @@ io.on('connection', (socket) =>{
         else {
           let randChoice = [null, choice1, choice2, choice3];
           let answer = Math.floor(Math.random() * (tempArr.length - 1) + 1);
-          
           socket.emit(emitStr, randChoice[answer]);
         }
       
       } 
     }
 
-    //---------- DICE PICK ------------- //
-    // function dicePick(result){
+   // ---------- DICE PICK ------------- //
+    function dicePick(result, emitStr, choice1, choice2, choice3){
       
-    //   let choiceArr = [];
-    //   choiceArr.push(result);
-    //   let count = 0;
-    //   console.log(choiceArr);
+      let choiceArr = [];
+      choiceArr.push(result);
+      let count = 0;
+      console.log(choiceArr);
   
-    //   for (let i = 0; i < choiceArr.length; i++){
-    //    count += parseInt(choiceArr[i]);     
-    //    }
-    //    if(count <= 8){
-    //      socket.emit(emitStr, choice1)
-    //    } 
-    //    else if(count > 8 && count <= 16){
-    //      socket.emit(emitStr, choice2)
-    //    }
-    //    else if(count >= 16) {
-    //      socket.emit(emitStr, choice3);
-    //    }
-    //    else {
-    //      socket.emit (emitStr, choice2);
-    //    }
+      for (let i = 0; i < choiceArr.length; i++){
+       count += parseInt(choiceArr[i]);     
+       }
+       if(count <= 8){
+         socket.emit(emitStr, choice1)
+        //  for (character in char) {
+        //    character.loseHealth(choice1.fightDamage)
+        //  }
+       } 
+       else if(count > 8 && count <= 16){
+         socket.emit(emitStr, choice2)
+       }
+       else if(count >= 16) {
+         socket.emit(emitStr, choice3);
+       }
+       else {
+         socket.emit(emitStr, choice2);
+       }
      
-    //  }
+     }
 })
 
 
