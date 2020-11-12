@@ -6,7 +6,9 @@ const inquirer = require('inquirer');
 let role = 'Warrior';
 
 client.on('connect', () => {
-  console.log(role, ' Connected')});
+  welcomeScene();
+});
+
 client.on('intro', scenario => {
   spaces();
   console.log(scenario.name);
@@ -23,7 +25,7 @@ client.on('atTheWallChosen', scenario => {
   spaces();
   console.log(scenario.name);
   console.log(scenario.dialogue);
-  if (scenario.name === 'The Orc Lord') {
+  if (scenario.name === 'Battling the Orc Lord') {
     roll(scenario, 'theOrcLordRoll');
   } else {
     roll(scenario, 'theWoodsmanRoll');
@@ -170,6 +172,9 @@ client.on('theKing', scenario => {
 client.on('disconnect', message => {
   console.log('DISCONNECTED!', message);
 })
+client.on('gameOver', message => {
+  console.log('DISCONNECTED!', message);
+})
 ///////////////////////////////////////////////
 
 function riddle(scenario, emitStr, role) {
@@ -252,8 +257,9 @@ function choiceFunction3(scenario, emitStr){
       } else if (choice.Answer[0] === scenario.choices.choice3.choiceName) {
         client.emit(emitStr, scenario.choices.choice3)
       } else {
-          client.emit(emitStr, scenario.choices.choice2)
-        }
+        client.emit(emitStr, scenario.choices.choice2)
+      }
+
     })
     .catch(error => {
       if(error.isTtyError) {
@@ -280,7 +286,7 @@ function choiceFunction3(scenario, emitStr){
     .then(choice => {
       let status = null;
       if(choice) {
-        status = 'Player ready'
+        status = `${role} ready`
       }
       client.emit(emitStr, status);
       console.log(status);
@@ -326,3 +332,29 @@ function spaces() {
   console.log('');
   console.log('');
 }
+
+//////////////////////////////////////////////////
+function charName(emitStr) {
+  inquirer
+  .prompt([
+    {
+      name: 'name',
+      message: `Welcome ${role}, please enter your name`,
+      default: `type your name and press enter`,
+    },
+  ])
+  .then(answer => {
+    if (answer.name === 'type your name and press enter') {
+      answer.name = 'Silent Crash';
+    }
+    let payload = { name: answer.name, charClass: role }
+    client.emit(emitStr, payload);
+  });
+}
+
+function welcomeScene() {
+  let story = `You were the first born of Iron Jaw, the arrogant ruler of the Ogre Kingdom, and were originally named Bristle Beard at birth. You were abandoned by your parents at a young age, since they considered you an embarrassment due to your unusually gentle features. As such, you grew up alone, knowing only your name but not who were. Living such a life, you soon took interest in local brawl fights with other Ogres. Nuturing your combat skills in a somewhat unique way, you soon became known as “The Ogre Warrior", the most talented and powerful in the kingdom, admired and worshiped by others. Then one day you were defeated by a youth from a far-off land. As a prodigy, your confidence had never been so knocked, and finally you blamed it on your own weakness. To become stronger and much more powerful, you chose to enter the life a mecenary and started your self-training with a powerful enchanted stone. Only the strongest ogre can channel the Twilight Orb, though you knew it would become much harder than you could ever imagine. You joined with a mixed band of warriors who have become renowned for your heroic deeds and prowess in battle.`
+  console.log(`Your Story: ${story}`);
+  spaces();
+}
+

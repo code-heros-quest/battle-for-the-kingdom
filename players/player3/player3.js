@@ -6,7 +6,9 @@ const inquirer = require('inquirer');
 let role = 'Assassin';
 
 client.on('connect', () => {
-  console.log(role, ' Connected')});
+  welcomeScene();
+});
+
 client.on('intro', scenario => {
   spaces();
   console.log(scenario.name);
@@ -23,7 +25,7 @@ client.on('atTheWallChosen', scenario => {
   spaces();
   console.log(scenario.name);
   console.log(scenario.dialogue);
-  if (scenario.name === 'The Orc Lord') {
+  if (scenario.name === 'Battling the Orc Lord') {
     roll(scenario, 'theOrcLordRoll');
   } else {
     roll(scenario, 'theWoodsmanRoll');
@@ -170,6 +172,9 @@ client.on('theKing', scenario => {
 client.on('disconnect', message => {
   console.log('DISCONNECTED!', message);
 })
+client.on('gameOver', message => {
+  console.log('DISCONNECTED!', message);
+})
 ///////////////////////////////////////////////
 
 function riddle(scenario, emitStr, role) {
@@ -254,6 +259,7 @@ function choiceFunction3(scenario, emitStr){
       } else {
         client.emit(emitStr, scenario.choices.choice2)
       }
+
     })
     .catch(error => {
       if(error.isTtyError) {
@@ -280,7 +286,7 @@ function choiceFunction3(scenario, emitStr){
     .then(choice => {
       let status = null;
       if(choice) {
-        status = 'Player ready'
+        status = `${role} ready`
       }
       client.emit(emitStr, status);
       console.log(status);
@@ -325,4 +331,30 @@ function roll(scenario, emitStr){
 function spaces() {
   console.log('');
   console.log('');
+}
+
+//////////////////////////////////////////////////
+function charName(emitStr) {
+  inquirer
+  .prompt([
+    {
+      name: 'name',
+      message: `Welcome ${role}, please enter your name`,
+      default: `type your name and press enter`,
+    },
+  ])
+  .then(answer => {
+    if (answer.name === 'type your name and press enter') {
+      answer.name = 'Silent Crash';
+    }
+    let payload = { name: answer.name, charClass: role }
+    client.emit(emitStr, payload);
+  });
+}
+
+
+function welcomeScene() {
+  let story = `Your name is Athyrium and you were orphaned at an early age in the Human/Orc wars. You were raised as a little girl by the Monastery of Shadows where you were trained to becoming one of the Shadow Assassins. As a young phenom you rose to become the top assassin for the monastery, by your outstanding talents with poisons and stealth. However, on one assassination mission, you failed in your execution, causing the others with you on the team to be killed. Although you managed to escape danger, this was a severe blow to your confidence and pride. To prove yourself again, you've exiled yourself to the outskirts of the land, far from the monastery, to carry out more dangerous missions. You joined with a mixed band of warriors who have become renowned for your heroic deeds and prowess in battle.`;
+  console.log(`Your Story: ${story}`);
+  spaces();
 }

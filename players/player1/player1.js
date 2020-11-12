@@ -6,7 +6,9 @@ const inquirer = require('inquirer');
 let role = 'Hunter';
 
 client.on('connect', () => {
-  console.log(role, ' Connected')});
+  welcomeScene();
+});
+
 client.on('intro', scenario => {
   spaces();
   console.log(scenario.name);
@@ -23,7 +25,7 @@ client.on('atTheWallChosen', scenario => {
   spaces();
   console.log(scenario.name);
   console.log(scenario.dialogue);
-  if (scenario.name === 'The Orc Lord') {
+  if (scenario.name === 'Battling the Orc Lord') {
     roll(scenario, 'theOrcLordRoll');
   } else {
     roll(scenario, 'theWoodsmanRoll');
@@ -170,6 +172,9 @@ client.on('theKing', scenario => {
 client.on('disconnect', message => {
   console.log('DISCONNECTED!', message);
 })
+client.on('gameOver', message => {
+  console.log('DISCONNECTED!', message);
+})
 ///////////////////////////////////////////////
 
 function riddle(scenario, emitStr, role) {
@@ -281,7 +286,7 @@ function choiceFunction3(scenario, emitStr){
     .then(choice => {
       let status = null;
       if(choice) {
-        status = 'Player ready'
+        status = `${role} ready`
       }
       client.emit(emitStr, status);
       console.log(status);
@@ -326,4 +331,29 @@ function roll(scenario, emitStr){
 function spaces() {
   console.log('');
   console.log('');
+}
+
+//////////////////////////////////////////////////
+function charName(emitStr) {
+  inquirer
+  .prompt([
+    {
+      name: 'name',
+      message: `Welcome ${role}, please enter your name`,
+      default: `type your name and press enter`,
+    },
+  ])
+  .then(answer => {
+    if (answer.name === 'type your name and press enter') {
+      answer.name = 'Silent Crash';
+    }
+    let payload = { name: answer.name, charClass: role }
+    client.emit(emitStr, payload);
+  });
+}
+
+function welcomeScene() {
+  let story = `Your name is Silent Crash and you are an Elvin Hunter from the Isle of Glisandrial, homeland to the elves. From the age of 3 years you were trained in warfare like any other elf but you excelled and grew to be a skilled archer and animal tamer. When you were entering adulthood your parents went of to visit a neighboring elvin stronghold and were killed by a band of Orc raiders on elvin land. It is because of human corruption that monsters like Orcs have flourished and become emboldened to trespass where they never have before. You've made it your life's mission to wipe out those that encourage darkness to grow; to seek vengence for the death of your parents. You joined with a mixed band of warriors who have become renowned for your heroic deeds and prowess in battle.`;
+  console.log(`Your Story: ${story}`);
+  spaces();
 }

@@ -6,7 +6,9 @@ const inquirer = require('inquirer');
 let role = 'Wizard';
 
 client.on('connect', () => {
-  console.log(role, ' Connected')});
+  welcomeScene();
+});
+
 client.on('intro', scenario => {
   spaces();
   console.log(scenario.name);
@@ -23,7 +25,7 @@ client.on('atTheWallChosen', scenario => {
   spaces();
   console.log(scenario.name);
   console.log(scenario.dialogue);
-  if (scenario.name === 'The Orc Lord') {
+  if (scenario.name === 'Battling the Orc Lord') {
     roll(scenario, 'theOrcLordRoll');
   } else {
     roll(scenario, 'theWoodsmanRoll');
@@ -170,6 +172,9 @@ client.on('theKing', scenario => {
 client.on('disconnect', message => {
   console.log('DISCONNECTED!', message);
 })
+client.on('gameOver', message => {
+  console.log('DISCONNECTED!', message);
+})
 ///////////////////////////////////////////////
 
 function riddle(scenario, emitStr, role) {
@@ -254,6 +259,7 @@ function choiceFunction3(scenario, emitStr){
       } else {
         client.emit(emitStr, scenario.choices.choice2)
       }
+
     })
     .catch(error => {
       if(error.isTtyError) {
@@ -280,7 +286,7 @@ function choiceFunction3(scenario, emitStr){
     .then(choice => {
       let status = null;
       if(choice) {
-        status = 'Player ready'
+        status = `${role} ready`
       }
       client.emit(emitStr, status);
       console.log(status);
@@ -325,4 +331,29 @@ function roll(scenario, emitStr){
 function spaces() {
   console.log('');
   console.log('');
+}
+
+//////////////////////////////////////////////////
+function charName(emitStr) {
+  inquirer
+  .prompt([
+    {
+      name: 'name',
+      message: `Welcome ${role}, please enter your name`,
+      default: `type your name and press enter`,
+    },
+  ])
+  .then(answer => {
+    if (answer.name === 'type your name and press enter') {
+      answer.name = 'Silent Crash';
+    }
+    let payload = { name: answer.name, charClass: role }
+    client.emit(emitStr, payload);
+  });
+}
+
+function welcomeScene() {
+  let story = `Your name is Ibus and as a child you had always been the proof that excellence existed in the Magic Academy. You were born into a world of magic, with the gift to manipulate the mystical powers as easily as breathing in air. Your love for mystical magic was particularly powerful, which allowed you to master several sophisticated and profound mystic spells at an early age. Unfortunately, you were not able to able to control this power and soon became overwhelmed with the mystical energy. You sought a solution from the Ancient Magic sources. Thanks to help from Einwald, the chief wizard, you were able to gain control of the wild powers and harness them to your will. Einwald encouraged you to get back on your feet. He then proposed you continue your career as a wizard by joining a mercenary band to learn the mastery of combative magics. You joined with a mixed band of warriors who have become renowned for your heroic deeds and prowess in battle.`;
+  console.log(`Your Story: ${story}`);
+  spaces();
 }

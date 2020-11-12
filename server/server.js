@@ -5,9 +5,9 @@ const hub = io.of('/server');
 const inquirer = require('inquirer');
 
 
-const scenario = require('../scenario.js');
 const char = require('../characters.js');
 const loot = require('../loot.js');
+const scenario = require('../scenario.js');
 
 
 let welcomeObj = {
@@ -24,15 +24,17 @@ let playerCount = 0;
 let riddleCount = 0;
 
 io.on('connection', (socket) =>{
+  
   counter++;
   if(counter === 4){
-    console.log(`${socket.id} has connected`);
-    io.emit('intro', scenario.intro)
-    // io.emit('theHydra', scenario.theHydra);
+  console.log(`all players have connected`);
+  io.emit('intro', scenario.intro)
+  //io.emit('theHydra', scenario.theHydra);
   }
+  
   socket.on('introReady', ready => {
     readyStatus(ready, 'atTheWall', scenario.atTheWall);
-    
+    console.log(char.hunter.name);
   })
 
   socket.on('atTheWallChoice', choices => {
@@ -108,7 +110,7 @@ io.on('connection', (socket) =>{
     readyStatus(ready, 'theHydra', scenario.theHydra);
   })
   socket.on('theHydraRoll', rolls => {
-    dicePick(62, 74, 12, 7, 5, rolls, 'theHydraResult', scenario.theHydra.choices.lowRoll, scenario.theHydra.choices.medRoll, scenario.theHydra.choices.highRoll)
+    dicePick(64, 78, 20, 9, 5, rolls, 'theHydraResult', scenario.theHydra.choices.lowRoll, scenario.theHydra.choices.medRoll, scenario.theHydra.choices.highRoll)
   })
   socket.on('theHydraReady', ready => {
     gameOverHydra();
@@ -137,6 +139,8 @@ io.on('connection', (socket) =>{
     readyStatus(ready, 'theKing', scenario.theKing);
     
   })
+
+  
 
 
 
@@ -337,6 +341,19 @@ io.on('connection', (socket) =>{
     }
   }
 
+  // ---------- Save Name ------------- //
+
+  function saveName(payload) {
+    for (const character in char) {
+      console.log(character)
+      if (char[character].charClass === payload.charClass) {
+        console.log(char[character])
+        char[character].name = payload.name;
+        console.log(char[character])
+      }
+    }
+  }
+
   function currentStats() {
     let statObj = { health: 0, attack: 0};
     for (const character in char) {
@@ -399,7 +416,12 @@ io.on('connection', (socket) =>{
 
 
 
-
+module.exports = {
+  hunter: char.hunter, 
+  wizard: char.wizard,
+  warrior: char.warrior,
+  assassin: char.assassin
+}
 
 
 

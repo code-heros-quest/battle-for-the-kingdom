@@ -1,7 +1,7 @@
 'use strict';
 
 let loot = require('./loot.js');
-let char = require('./characters.js');
+const char = require('./characters.js');
 
 class Choice {
   constructor(num, choiceName, dialogue, lootObject) {
@@ -27,7 +27,7 @@ class Scenario {
 const theKingChoices = {
   choice1: new Choice(1, 'name', 'dialogue', null)
 }
-const theKing = new Scenario('The King', `dialogue`, `choice question`, theKingChoices);
+const theKing = new Scenario('The King', ``, `choice question`, theKingChoices);
 
 // NPC 6 : Mage-Smith
 const mageSmithChoices = {
@@ -84,7 +84,7 @@ const theWitch = new Scenario('The Witch', `After a few days journey your band o
 const theMerchantChoices = {
   choice1: new Choice(1, 'Wrong Answer', `"I am sorry, you did not answer correctly. I wish I could help but I have no choice" the Merchant says and moves away`, null),
   choice2: new Choice(2, ['footsteps', 'foot steps'], `"You are correct! The king has no law about me giving gifts so I would like to give you a gift I hope will help you on your quest."`, [loot.poisonousBerries, loot.sheild, loot.hoodAndJesses, loot.magicalAmulet]),
-  choice3: new Choice(3, '2 or more incorrect', `"I am sorry, only one of you answered correctly. Otherwise my prizes could have been greater.`, null),
+  choice3: new Choice(3, '2 or more incorrect', `"I am sorry, very few of you answered correctly. Otherwise my prizes could have been greater."`, null),
   choice4: new Choice(4, '3 or more correct', `"More than half of you answered correctly! You are a very smart group and I know you will defeat that evil king!"`, null),
 
 }
