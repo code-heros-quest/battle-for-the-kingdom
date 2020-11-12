@@ -28,7 +28,7 @@ io.on('connection', (socket) =>{
   if(counter === 4){
     console.log(`${socket.id} has connected`);
     io.emit('intro', scenario.intro)
-    // io.emit('theTroll', scenario.theTroll)
+    // io.emit('theHydra', scenario.theHydra);
   }
   socket.on('introReady', ready => {
     readyStatus(ready, 'atTheWall', scenario.atTheWall);
@@ -96,7 +96,7 @@ io.on('connection', (socket) =>{
     if (playerCount === 4) {
       if (riddleCount > 2) {
         io.emit('theWitchResults', scenario.theWitch.choices.choice4);
-        char.wizzard.activateLoot(loot.gnarledStaff);
+        char.wizard.activateLoot(loot.gnarledStaff);
       } else {
         io.emit('theWitchResults', scenario.theWitch.choices.choice3);
       }
@@ -108,13 +108,14 @@ io.on('connection', (socket) =>{
     readyStatus(ready, 'theHydra', scenario.theHydra);
   })
   socket.on('theHydraRoll', rolls => {
-    dicePick(62, 74, 15, 10, 5, rolls, 'theHydraResults', scenario.theHydra.choices.lowRoll, scenario.theHydra.choices.medRoll, scenario.theHydra.choices.highRoll)
+    dicePick(62, 74, 12, 7, 5, rolls, 'theHydraResult', scenario.theHydra.choices.lowRoll, scenario.theHydra.choices.medRoll, scenario.theHydra.choices.highRoll)
   })
   socket.on('theHydraReady', ready => {
+    gameOverHydra();
     readyStatus(ready, 'rebellion', scenario.rebellion);
   })
   socket.on('rebellionRoll', rolls => {
-    dicePick(8, 16, 0, 0, 0, rolls, 'rebellionResult', scenario.rebellion.choices.lowRoll, scenario.theWoodsman.choices.medRoll, scenario.theWoodsman.choices.highRoll);
+    dicePick(8, 16, 0, 0, 0, rolls, 'rebellionResult', scenario.rebellion.choices.lowRoll, scenario.rebellion.choices.medRoll, scenario.rebellion.choices.highRoll);
   })
   socket.on('rebellionReady', ready => {
     readyStatus(ready, 'cityAroundThePalace', scenario.cityAroundThePalace);
@@ -229,6 +230,7 @@ io.on('connection', (socket) =>{
       count += stats.attack;
       console.log(count);
       if(count <= low){
+        console.log(count, ' <= ', low)
         console.log('bad roll');
         io.emit(emitStr, choice1)
         affectForHealth(dam1);
@@ -239,6 +241,7 @@ io.on('connection', (socket) =>{
         playerCount = 0;
         } 
         else if(count > low && count <= med){
+          console.log(count, ' > ', low, ' && ', count, ' <= ', med)
           console.log('med roll');
           io.emit(emitStr, choice2)
           affectForHealth(dam2);
@@ -249,6 +252,7 @@ io.on('connection', (socket) =>{
           playerCount = 0;
         }
         else if(count > med) {
+          console.log(count, ' > ', med);
           console.log('good roll');
           io.emit(emitStr, choice3);
           affectForHealth(dam3);
@@ -303,12 +307,27 @@ io.on('connection', (socket) =>{
     for (const character in char) {
       console.log(char[character])
       char[character].loseHealth(value)
+      if (char[character].stats.health < 1) {
+        gameOver();
+      }
       console.log(char[character])
     }
   }
     
   function gameOver(){
-    io.emit
+    let stats = currentStats();
+    console.log(stats.health);
+    io.emit('gameOver', 'One or more of your members have died. You cannot continue.' );
+    socket.disconnect();
+  }
+
+  function gameOverHydra(){
+    let stats = currentStats();
+    console.log(stats.health);
+    if (stats.health < 40) {
+    io.emit('gameOver', 'Your party has suffered too much damage to continue')
+    socket.disconnect();
+    }
   }
 
 
