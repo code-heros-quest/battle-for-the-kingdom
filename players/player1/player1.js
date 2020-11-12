@@ -3,10 +3,10 @@ const ioClient = require('socket.io-client');
 const client = ioClient('ws://localhost:3000');
 const inquirer = require('inquirer');
 
-let role = 'hunter';
+let role = 'Hunter';
 
 client.on('connect', () => {
-  console.log('Player Connected')});
+  console.log(role, ' Connected')});
 client.on('intro', scenario => {
   spaces();
   console.log(scenario.name);
@@ -80,10 +80,13 @@ client.on('theTrollResult', result => {
 client.on('theMerchant', scenario => {
   console.log(scenario.name);
   console.log(scenario.dialogue);
-  riddle(scenario, 'theMerchantRiddle');
+  riddle(scenario, 'theMerchantRiddle', role);
+})
+client.on('theMerchantRiddleAnswer', results => {
+  console.log(results)
 })
 client.on('theMerchantResults', results => {
-  console.log(result.dialogue)
+  console.log(results.dialogue)
   readyStatus('theMerchantReady');
 })
 client.on('theWitch', scenario => {
@@ -91,8 +94,11 @@ client.on('theWitch', scenario => {
   console.log(scenario.dialogue);
   riddle(scenario, 'theWitchRiddle');
 });
+client.on('theWitchRiddleAnswer', results => {
+  console.log(results)
+})
 client.on('theWitchResults', results => {
-  console.log(result.dialogue)
+  console.log(results.dialogue)
   readyStatus('theWitchReady');
 })
 client.on('theHydra', scenario => {
@@ -103,7 +109,7 @@ client.on('theHydra', scenario => {
 client.on('theHydraResult', result => {
   console.log(result.dialogue)
   readyStatus('theHydraReady');
-})
+});
 client.on('rebellion', scenario => {
   console.log(scenario.name);
   console.log(scenario.dialogue);

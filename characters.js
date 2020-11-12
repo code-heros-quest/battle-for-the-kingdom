@@ -1,4 +1,5 @@
 'use strict';
+const loot = require('./loot.js');
 
 class Character {
   constructor(name, race, charClass, health, attack) {
@@ -22,8 +23,11 @@ class Character {
     this.stats.attack += value;
   }
   activateLoot(lootObj) {
-    this.addHealth(lootObj.health);
-    this.addAttack(lootObj.attack);
+    let role = lootObj.role;
+    if (role.includes(this.charClass)) {
+      this.addHealth(lootObj.health);
+      this.addAttack(lootObj.attack);
+    }
   }
 }
 
