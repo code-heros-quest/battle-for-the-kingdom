@@ -16,5 +16,8 @@
   "bugs": {
     "url": "https://github.com/code-heros-quest/battle-for-the-kingdom/issues"
   },
-  "homepage": "https://github.com/code-heros-quest/battle-for-the-kingdom#readme"
+  "homepage": "https://github.com/code-heros-quest/battle-for-the-kingdom#readme",
+  "dependencies": {
+    "chalk": "^4.1.0"
+  }
 }

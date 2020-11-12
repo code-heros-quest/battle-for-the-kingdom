@@ -2,6 +2,7 @@
 const ioClient = require('socket.io-client');
 const client = ioClient('ws://localhost:3000');
 const inquirer = require('inquirer');
+const chalk = require('chalk');
 
 let role = 'Assassin';
 
@@ -11,20 +12,20 @@ client.on('connect', () => {
 
 client.on('intro', scenario => {
   spaces();
-  console.log(scenario.name);
-  console.log(scenario.dialogue);
+  console.log(chalk.green(scenario.name));
+  console.log(chalk.inverse(scenario.dialogue));
   readyStatus('introReady');
 })
 client.on('atTheWall', scenario => {
   spaces();
-  console.log(scenario.name);
-  console.log(scenario.dialogue);
+  console.log(chalk.green(scenario.name));
+  console.log(chalk.inverse(scenario.dialogue));
   choiceFunction2(scenario, 'atTheWallChoice');
 })
 client.on('atTheWallChosen', scenario => {
   spaces();
-  console.log(scenario.name);
-  console.log(scenario.dialogue);
+  console.log(chalk.green(scenario.name));
+  console.log(chalk.inverse(scenario.dialogue));
   if (scenario.name === 'Battling the Orc Lord') {
     roll(scenario, 'theOrcLordRoll');
   } else {
@@ -34,7 +35,7 @@ client.on('atTheWallChosen', scenario => {
 client.on('theWoodsManResult', result => {
   spaces();
   console.log(result.choiceName);
-  console.log(result.dialogue)
+  console.log(chalk.inverse(result.dialogue))
   readyStatus('theWoodsmanReady');
 })
 client.on('theOrcLordResult', result => {
@@ -45,20 +46,20 @@ client.on('theOrcLordResult', result => {
 })
 client.on('theOldFriend', scenario => {
   spaces();
-  console.log(scenario.name);
-  console.log(scenario.dialogue);
+  console.log(chalk.green(scenario.name));
+  console.log(chalk.inverse(scenario.dialogue));
   readyStatus('theOldFriendReady');
 })
 client.on('theVillage', scenario => {
   spaces();
-  console.log(scenario.name);
-  console.log(scenario.dialogue);
+  console.log(chalk.green(scenario.name));
+  console.log(chalk.inverse(scenario.dialogue));
   choiceFunction2(scenario, 'theVillageChoice');
 })
 client.on('theVillageChosen', scenario => {
   spaces();
-  console.log(scenario.name);
-  console.log(scenario.dialogue);
+  console.log(chalk.green(scenario.name));
+  console.log(chalk.inverse(scenario.dialogue));
   if (scenario.name === 'The Goblin') {
     roll(scenario, 'theGoblinRoll');
   } else {
@@ -68,25 +69,25 @@ client.on('theVillageChosen', scenario => {
 client.on('theGoblinResult', result => {
   spaces();
   console.log(result.choiceName)
-  console.log(result.dialogue)
+  console.log(chalk.inverse(result.dialogue))
   readyStatus('theGoblinReady');
 });
 client.on('theTroll', scenario => {
   spaces();
-  console.log(scenario.name);
-  console.log(scenario.dialogue);
+  console.log(chalk.green(scenario.name));
+  console.log(chalk.inverse(scenario.dialogue));
   roll(scenario, 'theTrollRoll');
 })
 client.on('theTrollResult', result => {
   spaces();
   console.log(result.choiceName)
-  console.log(result.dialogue)
+  console.log(chalk.inverse(result.dialogue))
   readyStatus('theTrollReady');
 })
 client.on('theMerchant', scenario => {
   spaces();
-  console.log(scenario.name);
-  console.log(scenario.dialogue);
+  console.log(chalk.green(scenario.name));
+  console.log(chalk.inverse(scenario.dialogue));
   riddle(scenario, 'theMerchantRiddle', role);
 })
 client.on('theMerchantRiddleAnswer', results => {
@@ -95,13 +96,13 @@ client.on('theMerchantRiddleAnswer', results => {
 })
 client.on('theMerchantResults', results => {
   spaces();
-  console.log(results.dialogue)
+  console.log(chalk.inverse(results.dialogue))
   readyStatus('theMerchantReady');
 })
 client.on('theWitch', scenario => {
   spaces();
-  console.log(scenario.name);
-  console.log(scenario.dialogue);
+  console.log(chalk.green(scenario.name));
+  console.log(chalk.inverse(scenario.dialogue));
   riddle(scenario, 'theWitchRiddle');
 });
 client.on('theWitchRiddleAnswer', results => {
@@ -110,37 +111,37 @@ client.on('theWitchRiddleAnswer', results => {
 })
 client.on('theWitchResults', results => {
   spaces();
-  console.log(results.dialogue)
+  console.log(chalk.inverse(results.dialogue))
   readyStatus('theWitchReady');
 })
 client.on('theHydra', scenario => {
   spaces();
-  console.log(scenario.name);
-  console.log(scenario.dialogue);
+  console.log(chalk.green(scenario.name));
+  console.log(chalk.inverse(scenario.dialogue));
   roll(scenario, 'theHydraRoll');
 });
 client.on('theHydraResult', result => {
   spaces();
   console.log(result.choiceName);
-  console.log(result.dialogue);
+  console.log(chalk.inverse(result.dialogue))
   readyStatus('theHydraReady');
 });
 client.on('rebellion', scenario => {
   spaces;
-  console.log(scenario.name);
-  console.log(scenario.dialogue);
+  console.log(chalk.green(scenario.name));
+  console.log(chalk.inverse(scenario.dialogue));
   roll(scenario, 'rebellionRoll');
 })
 client.on('rebellionResult', result => {
   spaces();
   console.log(result.choiceName);
-  console.log(result.dialogue);
+  console.log(chalk.inverse(result.dialogue))
   readyStatus('rebellionReady');
 })
 client.on('cityAroundThePalace', scenario => {
   spaces();
-  console.log(scenario.name);
-  console.log(scenario.dialogue);
+  console.log(chalk.green(scenario.name));
+  console.log(chalk.inverse(scenario.dialogue));
   choiceFunction3(scenario, 'cityAroundThePalaceChoice');
 })
 client.on('cityAroundThePalaceChosen', choice => {
@@ -151,14 +152,14 @@ client.on('cityAroundThePalaceChosen', choice => {
 });
 client.on('hornedAnimal', scenario => {
   spaces();
-  console.log(scenario.name);
-  console.log(scenario.dialogue);
+  console.log(chalk.green(scenario.name));
+  console.log(chalk.inverse(scenario.dialogue));
   readyStatus('hornedAnimalReady');
 })
 client.on('mageSmith', scenario => {
   spaces();
-  console.log(scenario.name);
-  console.log(scenario.dialogue);
+  console.log(chalk.green(scenario.name));
+  console.log(chalk.inverse(scenario.dialogue));
   choiceFunction3(scenario, 'mageSmithChoice');
 })
 client.on('mageSmithChosen', choice => {
@@ -170,10 +171,12 @@ client.on('mageSmithChosen', choice => {
 client.on('theKing', scenario => {
 })
 client.on('disconnect', message => {
-  console.log('DISCONNECTED!', message);
+  console.log(chalk.red('DISCONNECTED!', message));
 })
 client.on('gameOver', message => {
-  console.log('DISCONNECTED!', message);
+  spaces();
+  console.log(message.name);
+  console.log(message.dialogue);
 })
 ///////////////////////////////////////////////
 
@@ -274,59 +277,59 @@ function choiceFunction3(scenario, emitStr){
 
 
   //-----------READY FUNCTION----------//
-  function readyStatus (emitStr) {
+  function readyStatus(emitStr) {
     inquirer
-    .prompt([
-      {
-        type: 'confirm',
-        message: 'Hit return to proceed',
-        name: 'Answer',
-      },
-    ])
-    .then(choice => {
-      let status = null;
-      if(choice) {
-        status = `${role} ready`
-      }
-      client.emit(emitStr, status);
-      console.log(status);
-    })
-    .catch(error => {
-      if(error.isTtyError) {
-        //Prompt couldn't be rendered in the current environment
-        console.log(error)
-      } else {
-        console.log('Something else when wrong')
-      }
-    });
+      .prompt([
+        {
+          type: 'confirm',
+          message: 'Hit return to proceed',
+          name: 'Answer',
+        },
+      ])
+      .then(choice => {
+        let status = null;
+        if (choice) {
+          status = 'Player ready'
+        }
+        client.emit(emitStr, status);
+        console.log(chalk.green(status));
+      })
+      .catch(error => {
+        if (error.isTtyError) {
+          //Prompt couldn't be rendered in the current environment
+          console.log(error)
+        } else {
+          console.log(chalk.red('Something else when wrong'))
+        }
+      });
   }
 
 
   //---------- DICE ROLL FUNCTION -----------//
 
-function roll(scenario, emitStr){
-  inquirer
-  .prompt([
-    {
-      type: 'confirm',
-      message: scenario.choiceQuestion,
-      name: 'Answer',
-    },
-  ])
-  .then(choice => {
-    let randomNumber = Math.floor((Math.random() * 6) + 1);
-    client.emit(emitStr, randomNumber);
-    console.log('You rolled a ', randomNumber);
-  })
-  .catch(error => {
-    if(error.isTtyError) {
-      //Prompt couldn't be rendered in the current environment
-      console.log(error)
-    } else {
-      console.log('Something else when wrong')
-    }
-  });
-}
+  function roll(scenario, emitStr) {
+    inquirer
+      .prompt([
+        {
+          type: 'confirm',
+          message: scenario.choiceQuestion,
+          name: 'Answer',
+        },
+      ])
+      .then(choice => {
+        let randomNumber = Math.floor((Math.random() * 6) + 1);
+        client.emit(emitStr, randomNumber);
+        console.log(chalk.bgBlue('You rolled a ', randomNumber));
+      })
+      .catch(error => {
+        if (error.isTtyError) {
+          //Prompt couldn't be rendered in the current environment
+          console.log(error)
+        } else {
+          console.log(chalk.red('Something else when wrong'))
+        }
+      });
+  }
 
 function spaces() {
   console.log('');

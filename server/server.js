@@ -44,7 +44,6 @@ io.on('connection', (socket) =>{
   })
   socket.on('theWoodsmanRoll', rolls => {
     dicePickLuck(8, 16, 0, 0, 0, rolls, 'theWoodsManResult', scenario.theWoodsman.choices.lowRoll, scenario.theWoodsman.choices.medRoll, scenario.theWoodsman.choices.highRoll);
-    // evaluate rolls and affect player health, 
   })
   socket.on('theWoodsmanReady', ready => {
     readyStatus(ready, 'theVillage', scenario.theVillage)
@@ -398,7 +397,7 @@ io.on('connection', (socket) =>{
   function gameOver(){
     let stats = currentStats();
     console.log(stats.health);
-    io.emit('gameOver', 'One or more of your members have died. You cannot continue.' );
+    io.emit('gameOver', scenario.gameOverDeath);
     socket.disconnect();
   }
 
@@ -406,7 +405,7 @@ io.on('connection', (socket) =>{
     let stats = currentStats();
     console.log(stats.health);
     if (stats.health < 40) {
-    io.emit('gameOver', 'Your party has suffered too much damage to continue')
+    io.emit('gameOver', scenario.gameOverHydra);
     socket.disconnect();
     }
   }
