@@ -23,13 +23,11 @@ client.on('atTheWallChosen', scenario => {
   spaces();
   console.log(scenario.name);
   console.log(scenario.dialogue);
-  roll('theOrcLordRoll');
-})
-client.on('theWoodsMan', scenario => {
-  spaces();
-  console.log(scenario.name);
-  console.log(scenario.dialogue);
-  roll('theWoodsmanRoll')
+  if (scenario.name === 'The Orc Lord') {
+    roll('theOrcLordRoll');
+  } else {
+    roll('theWoodsmanRoll');
+  } 
 })
 client.on('theWoodsManResult', result => {
   spaces();
@@ -96,7 +94,7 @@ client.on('theWitch', scenario => {
 });
 client.on('theWitchRiddleAnswer', results => {
   console.log(results)
-});
+})
 client.on('theWitchResults', results => {
   console.log(results.dialogue)
   readyStatus('theWitchReady');
@@ -109,7 +107,7 @@ client.on('theHydra', scenario => {
 client.on('theHydraResult', result => {
   console.log(result.dialogue)
   readyStatus('theHydraReady');
-})
+});
 client.on('rebellion', scenario => {
   console.log(scenario.name);
   console.log(scenario.dialogue);

@@ -23,13 +23,11 @@ client.on('atTheWallChosen', scenario => {
   spaces();
   console.log(scenario.name);
   console.log(scenario.dialogue);
-  roll('theOrcLordRoll');
-})
-client.on('theWoodsMan', scenario => {
-  spaces();
-  console.log(scenario.name);
-  console.log(scenario.dialogue);
-  roll('theWoodsmanRoll')
+  if (scenario.name === 'The Orc Lord') {
+    roll('theOrcLordRoll');
+  } else {
+    roll('theWoodsmanRoll');
+  } 
 })
 client.on('theWoodsManResult', result => {
   spaces();
