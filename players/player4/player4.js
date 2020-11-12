@@ -24,13 +24,14 @@ client.on('atTheWallChosen', scenario => {
   console.log(scenario.name);
   console.log(scenario.dialogue);
   if (scenario.name === 'The Orc Lord') {
-    roll('theOrcLordRoll');
+    roll(scenario, 'theOrcLordRoll');
   } else {
-    roll('theWoodsmanRoll');
+    roll(scenario, 'theWoodsmanRoll');
   } 
 })
 client.on('theWoodsManResult', result => {
   spaces();
+  console.log(result.choiceName);
   console.log(result.dialogue)
   readyStatus('theWoodsmanReady');
 })
@@ -57,86 +58,110 @@ client.on('theVillageChosen', scenario => {
   console.log(scenario.name);
   console.log(scenario.dialogue);
   if (scenario.name === 'The Goblin') {
-    roll('theGoblinRoll');
+    roll(scenario, 'theGoblinRoll');
   } else {
     readyStatus('thePoisonousBiteReady');
   }
 })
 client.on('theGoblinResult', result => {
+  spaces();
+  console.log(result.choiceName)
   console.log(result.dialogue)
   readyStatus('theGoblinReady');
 });
 client.on('theTroll', scenario => {
+  spaces();
   console.log(scenario.name);
   console.log(scenario.dialogue);
-  roll('theTrollRoll');
+  roll(scenario, 'theTrollRoll');
 })
 client.on('theTrollResult', result => {
+  spaces();
+  console.log(result.choiceName)
   console.log(result.dialogue)
   readyStatus('theTrollReady');
 })
 client.on('theMerchant', scenario => {
+  spaces();
   console.log(scenario.name);
   console.log(scenario.dialogue);
   riddle(scenario, 'theMerchantRiddle', role);
 })
 client.on('theMerchantRiddleAnswer', results => {
+  spaces();
   console.log(results)
 })
 client.on('theMerchantResults', results => {
+  spaces();
   console.log(results.dialogue)
   readyStatus('theMerchantReady');
 })
 client.on('theWitch', scenario => {
+  spaces();
   console.log(scenario.name);
   console.log(scenario.dialogue);
   riddle(scenario, 'theWitchRiddle');
 });
 client.on('theWitchRiddleAnswer', results => {
+  spaces();
   console.log(results)
 })
 client.on('theWitchResults', results => {
+  spaces();
   console.log(results.dialogue)
   readyStatus('theWitchReady');
 })
 client.on('theHydra', scenario => {
+  spaces();
   console.log(scenario.name);
   console.log(scenario.dialogue);
-  roll('theHydraRoll');
+  roll(scenario, 'theHydraRoll');
 });
 client.on('theHydraResult', result => {
-  console.log(result.dialogue)
+  spaces();
+  console.log(result.choiceName);
+  console.log(result.dialogue);
   readyStatus('theHydraReady');
 });
 client.on('rebellion', scenario => {
+  spaces;
   console.log(scenario.name);
   console.log(scenario.dialogue);
-  roll('rebellionRoll');
+  roll(scenario, 'rebellionRoll');
 })
 client.on('rebellionResult', result => {
-  console.log(result.dialogue)
+  spaces();
+  console.log(result.choiceName);
+  console.log(result.dialogue);
   readyStatus('rebellionReady');
 })
 client.on('cityAroundThePalace', scenario => {
+  spaces();
   console.log(scenario.name);
   console.log(scenario.dialogue);
   choiceFunction3(scenario, 'cityAroundThePalaceChoice');
 })
 client.on('cityAroundThePalaceChosen', choice => {
+  spaces();
+  console.log(choice.choiceName)
   console.log(choice.dialogue);
   readyStatus('cityAroundThePalaceReady');
 });
 client.on('hornedAnimal', scenario => {
+  spaces();
   console.log(scenario.name);
   console.log(scenario.dialogue);
   readyStatus('hornedAnimalReady');
 })
 client.on('mageSmith', scenario => {
+  spaces();
   console.log(scenario.name);
   console.log(scenario.dialogue);
   choiceFunction3(scenario, 'mageSmithChoice');
 })
 client.on('mageSmithChosen', choice => {
+  spaces();
+  console.log(choice.choiceName)
   console.log(choice.dialogue);
   readyStatus('mageSmithReady');
 })
@@ -226,6 +251,8 @@ function choiceFunction3(scenario, emitStr){
         client.emit(emitStr, scenario.choices.choice2)
       } else if (choice.Answer[0] === scenario.choices.choice3.choiceName) {
         client.emit(emitStr, scenario.choices.choice3)
+      } else {
+        client.emit(emitStr, scenario.choices.choice2)
       }
     })
     .catch(error => {
@@ -246,7 +273,7 @@ function choiceFunction3(scenario, emitStr){
     .prompt([
       {
         type: 'confirm',
-        message: 'TYPE Y IF YOU"RE READY TO PROCEED',
+        message: 'Hit return to proceed',
         name: 'Answer',
       },
     ])
@@ -271,12 +298,12 @@ function choiceFunction3(scenario, emitStr){
 
   //---------- DICE ROLL FUNCTION -----------//
 
-function roll(emitStr){
+function roll(scenario, emitStr){
   inquirer
   .prompt([
     {
       type: 'confirm',
-      message: 'ROLL THE DICE TO SEE YOUR FUTURE MY LORD',
+      message: scenario.choiceQuestion,
       name: 'Answer',
     },
   ])

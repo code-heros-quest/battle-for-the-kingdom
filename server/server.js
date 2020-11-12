@@ -41,7 +41,7 @@ io.on('connection', (socket) =>{
 
   })
   socket.on('theWoodsmanRoll', rolls => {
-    dicePick(8, 16, 0, 0, 0, rolls, 'theWoodsManResult', scenario.theWoodsman.choices.lowRoll, scenario.theWoodsman.choices.medRoll, scenario.theWoodsman.choices.highRoll);
+    dicePickLuck(8, 16, 0, 0, 0, rolls, 'theWoodsManResult', scenario.theWoodsman.choices.lowRoll, scenario.theWoodsman.choices.medRoll, scenario.theWoodsman.choices.highRoll);
     // evaluate rolls and affect player health, 
   })
   socket.on('theWoodsmanReady', ready => {
@@ -79,7 +79,7 @@ io.on('connection', (socket) =>{
   socket.on('theMerchantRiddle', payload => {
     riddleCount += riddleEvaluator(payload, scenario.theMerchant.choices, 'theMerchantRiddleAnswer')
     if (playerCount === 4) {
-      if (riddleCount > 2) {
+      if (riddleCount >= 2) {
         io.emit('theMerchantResults', scenario.theMerchant.choices.choice4);
       } else {
         io.emit('theMerchantResults', scenario.theMerchant.choices.choice3);
@@ -115,7 +115,7 @@ io.on('connection', (socket) =>{
     readyStatus(ready, 'rebellion', scenario.rebellion);
   })
   socket.on('rebellionRoll', rolls => {
-    dicePick(8, 16, 0, 0, 0, rolls, 'rebellionResult', scenario.rebellion.choices.lowRoll, scenario.rebellion.choices.medRoll, scenario.rebellion.choices.highRoll);
+    dicePickLuck(8, 16, 0, 0, 0, rolls, 'rebellionResult', scenario.rebellion.choices.lowRoll, scenario.rebellion.choices.medRoll, scenario.rebellion.choices.highRoll);
   })
   socket.on('rebellionReady', ready => {
     readyStatus(ready, 'cityAroundThePalace', scenario.cityAroundThePalace);
@@ -210,6 +210,69 @@ io.on('connection', (socket) =>{
       socket.emit(emitStr, incorrectDialogue);
     }
   }
+
+   // ---------- DICE PICK FOR LUCK ------------- //
+
+  
+  
+   function dicePickLuck(low, med, dam1, dam2, dam3, result, emitStr, choice1, choice2, choice3){
+    let stats = currentStats();
+    console.log('in function dice roll');
+    console.log('I am the result ' + result);
+    playerCount++;
+    choiceArr.push(result);
+    let count = 0;
+    console.log(choiceArr);
+    if(playerCount === 4){
+      console.log('this how many rolls', playerCount);
+      for (let i = 0; i < choiceArr.length; i++){
+        count += parseInt(choiceArr[i]);     
+      }
+      console.log(count);
+      if(count <= low){
+        console.log(count, ' <= ', low)
+        console.log('bad roll');
+        io.emit(emitStr, choice1)
+        affectForHealth(dam1);
+        if (choice1.lootObject) {
+          evaluateForLoot(choice1.lootObject);
+        }
+        choiceArr =[]
+        playerCount = 0;
+        } 
+        else if(count > low && count <= med){
+          console.log(count, ' > ', low, ' && ', count, ' <= ', med)
+          console.log('med roll');
+          io.emit(emitStr, choice2)
+          affectForHealth(dam2);
+          if (choice2.lootObject) {
+            evaluateForLoot(choice2.lootObject);
+          }
+          choiceArr =[]
+          playerCount = 0;
+        }
+        else if(count > med) {
+          console.log(count, ' > ', med);
+          console.log('good roll');
+          io.emit(emitStr, choice3);
+          affectForHealth(dam3);
+          if (choice3.lootObject) {
+            evaluateForLoot(choice3.lootObject);
+          }
+          choiceArr =[]
+          playerCount = 0;
+        }
+        else {
+          io.emit(emitStr, choice2);
+          affectForHealth(dam2);
+          if (choice2.lootObject) {
+            evaluateForLoot(choice2.lootObject);
+          }
+          choiceArr =[]
+          playerCount = 0;
+        } 
+    }
+  }
   // ---------- DICE PICK ------------- //
 
   
@@ -273,6 +336,7 @@ io.on('connection', (socket) =>{
         } 
     }
   }
+
   function currentStats() {
     let statObj = { health: 0, attack: 0};
     for (const character in char) {
