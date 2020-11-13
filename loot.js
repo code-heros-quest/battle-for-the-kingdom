@@ -13,8 +13,8 @@ class Loot {
 }
 
 let orcLordMace = new Loot('Orc Lord Mace', ['Warrior'], 0, 2);
-let herbalSalve = new Loot('Herbal Salve', ['Warrior', 'Wizard', 'Assassin', 'Hunter'], 5, 0);
-let strongBandages = new Loot('Strong Bandages', ['Warrior', 'Wizard', 'Assassin', 'Hunter'], 10, 0);
+let herbalSalve = new Loot('Herbal Salve', ['Warrior', 'Wizard', 'Assassin', 'Hunter'], 2, 0);
+let strongBandages = new Loot('Strong Bandages', ['Warrior', 'Wizard', 'Assassin', 'Hunter'], 6, 0);
 let falcon = new Loot('Falcon', ['Hunter'], 0, 0);
 let sheild = new Loot('Sheild', ['Warrior'], 3, 2);
 let poisonousBerries = new Loot('Poinsonous Berries', ['Assassin'], 0, 3);

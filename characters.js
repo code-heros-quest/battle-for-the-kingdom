@@ -36,6 +36,7 @@ let hunter = new Character('Silent Crash', 'Elf', 'Hunter', 20, 15);
 let warrior = new Character('Bristle Beard', 'Ogre', 'Warrior', 30, 10);
 let wizard = new Character('Ibus', 'Hobbit', 'Wizard', 30, 10)
 
+
 module.exports = {
   assassin,
   hunter,
