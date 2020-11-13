@@ -127,7 +127,7 @@ client.on('theHydraResult', result => {
   readyStatus('theHydraReady');
 });
 client.on('rebellion', scenario => {
-  spaces;
+  spaces();
   console.log(chalk.green(scenario.name));
   console.log(chalk.inverse(scenario.dialogue));
   roll(scenario, 'rebellionRoll');
@@ -147,7 +147,7 @@ client.on('cityAroundThePalace', scenario => {
 client.on('cityAroundThePalaceChosen', choice => {
   spaces();
   console.log(choice.choiceName)
-  console.log(choice.dialogue);
+  console.log(chalk.inverse(choice.dialogue));
   readyStatus('cityAroundThePalaceReady');
 });
 client.on('hornedAnimal', scenario => {
@@ -165,11 +165,54 @@ client.on('mageSmith', scenario => {
 client.on('mageSmithChosen', choice => {
   spaces();
   console.log(choice.choiceName)
-  console.log(choice.dialogue);
+  console.log(chalk.inverse(choice.dialogue));
   readyStatus('mageSmithReady');
 })
-client.on('theKing', scenario => {
+client.on('theKingIntro', scenario => {
+  spaces();
+  console.log(chalk.green(scenario.name));
+  console.log(chalk.inverse(scenario.dialogue));
+  readyStatus('theKingIntroReady');
 })
+client.on('theKing1', scenario => {
+  spaces();
+  console.log(chalk.green(scenario.name));
+  console.log(chalk.inverse(scenario.dialogue));
+  riddle(scenario, 'theKing1Riddle', role);
+})
+client.on('theKing1RiddleAnswer', results => {
+  spaces();
+  console.log(results)
+})
+client.on('theKing1Results', results => {
+  spaces();
+  console.log(chalk.inverse(results.dialogue))
+  readyStatus('theKing1Ready');
+})
+client.on('theKing2', scenario => {
+  spaces();
+  console.log(chalk.green(scenario.name));
+  console.log(chalk.inverse(scenario.dialogue));
+  roll(scenario, 'theKing2Roll');
+})
+client.on('theKing2Result', result => {
+  spaces();
+  console.log(result.choiceName);
+  console.log(chalk.inverse(result.dialogue))
+  readyStatus('theKing2Ready');
+});
+client.on('theKing3', scenario => {
+  spaces();
+  console.log(chalk.green(scenario.name));
+  console.log(chalk.inverse(scenario.dialogue));
+  roll(scenario, 'theKing3Roll');
+})
+client.on('theKing3Result', result => {
+  spaces();
+  console.log(result.choiceName);
+  console.log(chalk.inverse(result.dialogue))
+  readyStatus('theKing3Ready');
+});
 client.on('disconnect', message => {
   console.log(chalk.red('DISCONNECTED!', message));
 })
@@ -289,7 +332,7 @@ function choiceFunction3(scenario, emitStr){
       .then(choice => {
         let status = null;
         if (choice) {
-          status = 'Player ready'
+          status = `${role} Ready`
         }
         client.emit(emitStr, status);
         console.log(chalk.green(status));
