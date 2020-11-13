@@ -12,20 +12,20 @@ client.on('connect', () => {
 
 client.on('intro', scenario => {
   spaces();
-  console.log(chalk.green(scenario.name));
-  console.log(chalk.inverse(scenario.dialogue));
+  console.log(chalk.inverse(scenario.name));
+  console.log(scenario.dialogue);
   readyStatus('introReady');
 })
 client.on('atTheWall', scenario => {
   spaces();
-  console.log(chalk.green(scenario.name));
-  console.log(chalk.inverse(scenario.dialogue));
+  console.log(chalk.inverse(scenario.name));
+  console.log(scenario.dialogue);
   choiceFunction2(scenario, 'atTheWallChoice');
 })
 client.on('atTheWallChosen', scenario => {
   spaces();
-  console.log(chalk.green(scenario.name));
-  console.log(chalk.inverse(scenario.dialogue));
+  console.log(chalk.inverse(scenario.name));
+  console.log(scenario.dialogue);
   if (scenario.name === 'Battling the Orc Lord') {
     roll(scenario, 'theOrcLordRoll');
   } else {
@@ -34,32 +34,32 @@ client.on('atTheWallChosen', scenario => {
 })
 client.on('theWoodsManResult', result => {
   spaces();
-  console.log(result.choiceName);
-  console.log(chalk.inverse(result.dialogue))
+  console.log(chalk.inverse(result.choiceName));
+  console.log(result.dialogue);
   readyStatus('theWoodsmanReady');
 })
 client.on('theOrcLordResult', result => {
   spaces();
-  console.log(result.choiceName);
+  console.log(chalk.inverse(result.choiceName));
   console.log(result.dialogue);
   readyStatus('theOrcLordReady');
 })
 client.on('theOldFriend', scenario => {
   spaces();
-  console.log(chalk.green(scenario.name));
-  console.log(chalk.inverse(scenario.dialogue));
+  console.log(chalk.inverse(scenario.name));
+  console.log(scenario.dialogue);
   readyStatus('theOldFriendReady');
 })
 client.on('theVillage', scenario => {
   spaces();
-  console.log(chalk.green(scenario.name));
-  console.log(chalk.inverse(scenario.dialogue));
+  console.log(chalk.inverse(scenario.name));
+  console.log(scenario.dialogue);
   choiceFunction2(scenario, 'theVillageChoice');
 })
 client.on('theVillageChosen', scenario => {
   spaces();
-  console.log(chalk.green(scenario.name));
-  console.log(chalk.inverse(scenario.dialogue));
+  console.log(chalk.inverse(scenario.name));
+  console.log(scenario.dialogue);
   if (scenario.name === 'The Goblin') {
     roll(scenario, 'theGoblinRoll');
   } else {
@@ -68,149 +68,149 @@ client.on('theVillageChosen', scenario => {
 })
 client.on('theGoblinResult', result => {
   spaces();
-  console.log(result.choiceName)
-  console.log(chalk.inverse(result.dialogue))
+  console.log(chalk.inverse(result.choiceName));
+  console.log(result.dialogue)
   readyStatus('theGoblinReady');
 });
 client.on('theTroll', scenario => {
   spaces();
-  console.log(chalk.green(scenario.name));
-  console.log(chalk.inverse(scenario.dialogue));
+  console.log(chalk.inverse(scenario.name));
+  console.log(scenario.dialogue);
   roll(scenario, 'theTrollRoll');
 })
 client.on('theTrollResult', result => {
   spaces();
-  console.log(result.choiceName)
-  console.log(chalk.inverse(result.dialogue))
+  console.log(chalk.inverse(result.choiceName));
+  console.log(result.dialogue);
   readyStatus('theTrollReady');
 })
 client.on('theMerchant', scenario => {
   spaces();
-  console.log(chalk.green(scenario.name));
-  console.log(chalk.inverse(scenario.dialogue));
+  console.log(chalk.inverse(scenario.name));
+  console.log(scenario.dialogue);
   riddle(scenario, 'theMerchantRiddle', role);
 })
 client.on('theMerchantRiddleAnswer', results => {
   spaces();
-  console.log(results)
+  console.log(results);
 })
 client.on('theMerchantResults', results => {
   spaces();
-  console.log(chalk.inverse(results.dialogue))
+  console.log(results.dialogue);
   readyStatus('theMerchantReady');
 })
 client.on('theWitch', scenario => {
   spaces();
-  console.log(chalk.green(scenario.name));
-  console.log(chalk.inverse(scenario.dialogue));
+  console.log(chalk.inverse(scenario.name));
+  console.log(scenario.dialogue);
   riddle(scenario, 'theWitchRiddle');
 });
 client.on('theWitchRiddleAnswer', results => {
   spaces();
-  console.log(results)
+  console.log(results);
 })
 client.on('theWitchResults', results => {
   spaces();
-  console.log(chalk.inverse(results.dialogue))
+  console.log(results.dialogue);
   readyStatus('theWitchReady');
 })
 client.on('theHydra', scenario => {
   spaces();
-  console.log(chalk.green(scenario.name));
-  console.log(chalk.inverse(scenario.dialogue));
+  console.log(chalk.inverse(scenario.name));
+  console.log(scenario.dialogue);
   roll(scenario, 'theHydraRoll');
 });
 client.on('theHydraResult', result => {
   spaces();
-  console.log(result.choiceName);
-  console.log(chalk.inverse(result.dialogue))
+  console.log(chalk.inverse(result.choiceName));
+  console.log(result.dialogue);
   readyStatus('theHydraReady');
 });
 client.on('rebellion', scenario => {
   spaces();
-  console.log(chalk.green(scenario.name));
-  console.log(chalk.inverse(scenario.dialogue));
+  console.log(chalk.inverse(scenario.name));
+  console.log(scenario.dialogue);
   roll(scenario, 'rebellionRoll');
 })
 client.on('rebellionResult', result => {
   spaces();
-  console.log(result.choiceName);
-  console.log(chalk.inverse(result.dialogue))
+  console.log(chalk.inverse(result.choiceName));
+  console.log(result.dialogue);
   readyStatus('rebellionReady');
 })
 client.on('cityAroundThePalace', scenario => {
   spaces();
-  console.log(chalk.green(scenario.name));
-  console.log(chalk.inverse(scenario.dialogue));
+  console.log(chalk.inverse(scenario.name));
+  console.log(scenario.dialogue);
   choiceFunction3(scenario, 'cityAroundThePalaceChoice');
 })
 client.on('cityAroundThePalaceChosen', choice => {
   spaces();
-  console.log(choice.choiceName)
-  console.log(chalk.inverse(choice.dialogue));
+  console.log(chalk.inverse(choice.choiceName));
+  console.log(choice.dialogue);
   readyStatus('cityAroundThePalaceReady');
 });
 client.on('hornedAnimal', scenario => {
   spaces();
-  console.log(chalk.green(scenario.name));
-  console.log(chalk.inverse(scenario.dialogue));
+  console.log(chalk.inverse(scenario.name));
+  console.log(scenario.dialogue);
   readyStatus('hornedAnimalReady');
 })
 client.on('mageSmith', scenario => {
   spaces();
-  console.log(chalk.green(scenario.name));
-  console.log(chalk.inverse(scenario.dialogue));
+  console.log(chalk.inverse(scenario.name));
+  console.log(scenario.dialogue);
   choiceFunction3(scenario, 'mageSmithChoice');
 })
 client.on('mageSmithChosen', choice => {
   spaces();
-  console.log(choice.choiceName)
-  console.log(chalk.inverse(choice.dialogue));
+  console.log(chalk.inverse(choice.choiceName));
+  console.log(choice.dialogue);
   readyStatus('mageSmithReady');
 })
 client.on('theKingIntro', scenario => {
   spaces();
-  console.log(chalk.green(scenario.name));
-  console.log(chalk.inverse(scenario.dialogue));
+  console.log(chalk.inverse(scenario.name));
+  console.log(scenario.dialogue);
   readyStatus('theKingIntroReady');
 })
 client.on('theKing1', scenario => {
   spaces();
-  console.log(chalk.green(scenario.name));
-  console.log(chalk.inverse(scenario.dialogue));
+  console.log(chalk.inverse(scenario.name));
+  console.log(scenario.dialogue);
   riddle(scenario, 'theKing1Riddle', role);
 })
 client.on('theKing1RiddleAnswer', results => {
   spaces();
-  console.log(results)
+  console.log(results);
 })
 client.on('theKing1Results', results => {
   spaces();
-  console.log(chalk.inverse(results.dialogue))
+  console.log(results.dialogue);
   readyStatus('theKing1Ready');
 })
 client.on('theKing2', scenario => {
   spaces();
-  console.log(chalk.green(scenario.name));
-  console.log(chalk.inverse(scenario.dialogue));
+  console.log(chalk.inverse(scenario.name));
+  console.log(scenario.dialogue);
   roll(scenario, 'theKing2Roll');
 })
 client.on('theKing2Result', result => {
   spaces();
-  console.log(result.choiceName);
-  console.log(chalk.inverse(result.dialogue))
+  console.log(chalk.inverse(result.choiceName));
+  console.log(result.dialogue);
   readyStatus('theKing2Ready');
 });
 client.on('theKing3', scenario => {
   spaces();
-  console.log(chalk.green(scenario.name));
-  console.log(chalk.inverse(scenario.dialogue));
+  console.log(chalk.inverse(scenario.name));
+  console.log(scenario.dialogue);
   roll(scenario, 'theKing3Roll');
 })
 client.on('theKing3Result', result => {
   spaces();
-  console.log(result.choiceName);
-  console.log(chalk.inverse(result.dialogue))
+  console.log(chalk.inverse(result.choiceName));
+  console.log(result.dialogue);
   readyStatus('theKing3Ready');
 });
 client.on('disconnect', message => {
@@ -218,9 +218,10 @@ client.on('disconnect', message => {
 })
 client.on('gameOver', message => {
   spaces();
-  console.log(message.name);
+  console.log(chalk.bgRed(message.name));
   console.log(message.dialogue);
 })
+
 ///////////////////////////////////////////////
 
 function riddle(scenario, emitStr, role) {
@@ -362,7 +363,7 @@ function choiceFunction3(scenario, emitStr){
       .then(choice => {
         let randomNumber = Math.floor((Math.random() * 6) + 1);
         client.emit(emitStr, randomNumber);
-        console.log(chalk.bgBlue('You rolled a ', randomNumber));
+        console.log(chalk.yellow('You rolled a ', randomNumber));
       })
       .catch(error => {
         if (error.isTtyError) {

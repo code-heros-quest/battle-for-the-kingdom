@@ -438,8 +438,8 @@ io.on('connection', (socket) =>{
   }
     
   function evaluateForLootRiddle(lootArray, payload) {
+    console.log('evaluating for riddle loot');
     for (const character in char) {
-      console.log(character)
       if (char[character].charClass === payload.char) {
         console.log(char[character])
         lootArray.forEach(loot => char[character].activateLoot(loot));
@@ -449,6 +449,7 @@ io.on('connection', (socket) =>{
   }
     
   function affectForHealth(value) {
+    console.log('affecting char health');
     for (const character in char) {
       console.log(char[character])
       char[character].loseHealth(value)
