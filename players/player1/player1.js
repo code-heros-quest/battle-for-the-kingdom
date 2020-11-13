@@ -2,132 +2,229 @@
 const ioClient = require('socket.io-client');
 const client = ioClient('ws://localhost:3000');
 const inquirer = require('inquirer');
+const chalk = require('chalk');
 
+let role = 'Hunter';
 
 client.on('connect', () => {
-  console.log('Player Connected');
-  client.on('intro', scenario => {
-    console.log(scenario.name);
-    console.log(scenario.dialogue);
-    readyStatus('introReady');
-    // prompt for ready, emit ready check result
-  })
-  client.on('atTheWall', scenario => {
-    console.log(scenario.name);
-    console.log(scenario.dialogue);
-    choiceFunction2(scenario, 'atTheWallChoice');
-  })
-  client.on('atTheWallChosen', scenario => {
-    console.log(scenario.name);
-    console.log(scenario.dialogue);
-
-    // prompt for roll return roll results
-  })
-  client.on('theWoodsMan', scenario => {
-    console.log(scenario.name);
-    console.log(scenario.dialogue);
-    roll('theWoodsmanRoll')
-    // prompt for roll return roll results
-  })
-  client.on('theWoodsManRollResult', result => {
-
-    //console.log(result.dialogue)
-    // prompt for ready, emit ready check
-  } )
-  client.on('theOrcLordRollResult', result => {
-    //console.log(result.dialogue)
-    // prompt for ready, emit ready check - theOrcLordReady
-  })
-  client.on('theVillage', scenario => {
-    console.log(scenario.name);
-    console.log(scenario.dialogue);
-    choiceFunction2(scenario, 'theVillageChoice');
-  })
-  client.on('theVillageChosen', scenario => {
-    console.log(scenario.name);
-    console.log(scenario.dialogue);
-    if (scenario.name === 'The Goblin') {
-      // prompt for roll return roll results
-    } else {
-      // it is the poisonousSpider, prompt for ready and return results
-    }
-  })
-  client.on('theGoblinResult', result => {
-    //console.log(result.dialogue)
-    // prompt for ready, emit ready check - theGoblinReady
-  });
-  client.on('theTroll', scenario => {
-    console.log(scenario.name);
-    console.log(scenario.dialogue);
-    // prompt for roll return roll results
-  })
-  client.on('theTrollResult', result => {
-    //console.log(result.dialogue)
-    // prompt for ready, emit ready check - theTrollReady
-  })
-  client.on('theMerchant', scenario => {
-    console.log(scenario.name);
-    console.log(scenario.dialogue);
-    riddle(scenario, 'theMerchantRiddle');
-  })
-  client.on('theMerchantResults', results => {
-    //console.log(result.dialogue)
-    // prompt for ready, emit ready check - theMerchantReady
-  })
-  client.on('theWitch', scenario => {
-    console.log(scenario.name);
-    console.log(scenario.dialogue);
-    riddle(scenario, 'theWitchRiddle');
-  });
-  client.on('theWitchResults', results => {
-    //console.log(result.dialogue)
-    // prompt for ready, emit ready check - theWitchReady
-  })
-  client.on('theHydra', scenario => {
-    console.log(scenario.name);
-    console.log(scenario.dialogue);
-    // prompt for roll return roll results
-  });
-  client.on('theHydraResult', result => {
-    //console.log(result.dialogue)
-    // prompt for ready, emit ready check - theHydraReady
-  })
-  client.on('rebellion', scenario => {
-    console.log(scenario.name);
-    console.log(scenario.dialogue);
-    // prompt for roll return roll results
-  })
-  client.on('rebellionResult', result => {
-    //console.log(result.dialogue)
-    // prompt for ready, emit ready check - rebellionReady
-  })
-  client.on('cityAroundThePalace', scenario => {
-    console.log(scenario.name);
-    console.log(scenario.dialogue);
-    choiceFunction3(scenario, 'cityAroundThePalaceChoice');
-  })
-  client.on('cityAroundThePalaceChosen', choice => {
-    console.log(choice.dialogue);
-    // prompt for ready, emit ready check - cityAroundThePalaceReady
-  });
-  client.on('hornedAnimal', scenario => {
-    console.log(scenario.name);
-    console.log(scenario.dialogue);
-    // prompt for ready, emit ready check - hornedAnimalReady
-  })
-  client.on('mageSmith', scenario => {
-    console.log(scenario.name);
-    console.log(scenario.dialogue);
-    choiceFunction3(scenario, 'mageSmithChoice');
-  })
-  client.on('mageSmithChosen', choice => {
-    console.log(choice.dialogue);
-    // prompt for ready, emit ready check - mageSmithReady
-  })
-  client.on('theKing', scenario => {
-  })
+  welcomeScene();
 });
-function riddle(scenario, emitStr) {
+
+client.on('intro', scenario => {
+  spaces();
+  console.log(chalk.inverse(scenario.name));
+  console.log(scenario.dialogue);
+  readyStatus('introReady');
+})
+client.on('atTheWall', scenario => {
+  spaces();
+  console.log(chalk.inverse(scenario.name));
+  console.log(scenario.dialogue);
+  choiceFunction2(scenario, 'atTheWallChoice');
+})
+client.on('atTheWallChosen', scenario => {
+  spaces();
+  console.log(chalk.inverse(scenario.name));
+  console.log(scenario.dialogue);
+  if (scenario.name === 'Battling the Orc Lord') {
+    roll(scenario, 'theOrcLordRoll');
+  } else {
+    roll(scenario, 'theWoodsmanRoll');
+  } 
+})
+client.on('theWoodsManResult', result => {
+  spaces();
+  console.log(chalk.inverse(result.choiceName));
+  console.log(result.dialogue);
+  readyStatus('theWoodsmanReady');
+})
+client.on('theOrcLordResult', result => {
+  spaces();
+  console.log(chalk.inverse(result.choiceName));
+  console.log(result.dialogue);
+  readyStatus('theOrcLordReady');
+})
+client.on('theOldFriend', scenario => {
+  spaces();
+  console.log(chalk.inverse(scenario.name));
+  console.log(scenario.dialogue);
+  readyStatus('theOldFriendReady');
+})
+client.on('theVillage', scenario => {
+  spaces();
+  console.log(chalk.inverse(scenario.name));
+  console.log(scenario.dialogue);
+  choiceFunction2(scenario, 'theVillageChoice');
+})
+client.on('theVillageChosen', scenario => {
+  spaces();
+  console.log(chalk.inverse(scenario.name));
+  console.log(scenario.dialogue);
+  if (scenario.name === 'The Goblin') {
+    roll(scenario, 'theGoblinRoll');
+  } else {
+    readyStatus('thePoisonousBiteReady');
+  }
+})
+client.on('theGoblinResult', result => {
+  spaces();
+  console.log(chalk.inverse(result.choiceName));
+  console.log(result.dialogue)
+  readyStatus('theGoblinReady');
+});
+client.on('theTroll', scenario => {
+  spaces();
+  console.log(chalk.inverse(scenario.name));
+  console.log(scenario.dialogue);
+  roll(scenario, 'theTrollRoll');
+})
+client.on('theTrollResult', result => {
+  spaces();
+  console.log(chalk.inverse(result.choiceName));
+  console.log(result.dialogue);
+  readyStatus('theTrollReady');
+})
+client.on('theMerchant', scenario => {
+  spaces();
+  console.log(chalk.inverse(scenario.name));
+  console.log(scenario.dialogue);
+  riddle(scenario, 'theMerchantRiddle', role);
+})
+client.on('theMerchantRiddleAnswer', results => {
+  spaces();
+  console.log(results);
+})
+client.on('theMerchantResults', results => {
+  spaces();
+  console.log(results.dialogue);
+  readyStatus('theMerchantReady');
+})
+client.on('theWitch', scenario => {
+  spaces();
+  console.log(chalk.inverse(scenario.name));
+  console.log(scenario.dialogue);
+  riddle(scenario, 'theWitchRiddle');
+});
+client.on('theWitchRiddleAnswer', results => {
+  spaces();
+  console.log(results);
+})
+client.on('theWitchResults', results => {
+  spaces();
+  console.log(results.dialogue);
+  readyStatus('theWitchReady');
+})
+client.on('theHydra', scenario => {
+  spaces();
+  console.log(chalk.inverse(scenario.name));
+  console.log(scenario.dialogue);
+  roll(scenario, 'theHydraRoll');
+});
+client.on('theHydraResult', result => {
+  spaces();
+  console.log(chalk.inverse(result.choiceName));
+  console.log(result.dialogue);
+  readyStatus('theHydraReady');
+});
+client.on('rebellion', scenario => {
+  spaces();
+  console.log(chalk.inverse(scenario.name));
+  console.log(scenario.dialogue);
+  roll(scenario, 'rebellionRoll');
+})
+client.on('rebellionResult', result => {
+  spaces();
+  console.log(chalk.inverse(result.choiceName));
+  console.log(result.dialogue);
+  readyStatus('rebellionReady');
+})
+client.on('cityAroundThePalace', scenario => {
+  spaces();
+  console.log(chalk.inverse(scenario.name));
+  console.log(scenario.dialogue);
+  choiceFunction3(scenario, 'cityAroundThePalaceChoice');
+})
+client.on('cityAroundThePalaceChosen', choice => {
+  spaces();
+  console.log(chalk.inverse(choice.choiceName));
+  console.log(choice.dialogue);
+  readyStatus('cityAroundThePalaceReady');
+});
+client.on('hornedAnimal', scenario => {
+  spaces();
+  console.log(chalk.inverse(scenario.name));
+  console.log(scenario.dialogue);
+  readyStatus('hornedAnimalReady');
+})
+client.on('mageSmith', scenario => {
+  spaces();
+  console.log(chalk.inverse(scenario.name));
+  console.log(scenario.dialogue);
+  choiceFunction3(scenario, 'mageSmithChoice');
+})
+client.on('mageSmithChosen', choice => {
+  spaces();
+  console.log(chalk.inverse(choice.choiceName));
+  console.log(choice.dialogue);
+  readyStatus('mageSmithReady');
+})
+client.on('theKingIntro', scenario => {
+  spaces();
+  console.log(chalk.inverse(scenario.name));
+  console.log(scenario.dialogue);
+  readyStatus('theKingIntroReady');
+})
+client.on('theKing1', scenario => {
+  spaces();
+  console.log(chalk.inverse(scenario.name));
+  console.log(scenario.dialogue);
+  riddle(scenario, 'theKing1Riddle', role);
+})
+client.on('theKing1RiddleAnswer', results => {
+  spaces();
+  console.log(results);
+})
+client.on('theKing1Results', results => {
+  spaces();
+  console.log(results.dialogue);
+  readyStatus('theKing1Ready');
+})
+client.on('theKing2', scenario => {
+  spaces();
+  console.log(chalk.inverse(scenario.name));
+  console.log(scenario.dialogue);
+  roll(scenario, 'theKing2Roll');
+})
+client.on('theKing2Result', result => {
+  spaces();
+  console.log(chalk.inverse(result.choiceName));
+  console.log(result.dialogue);
+  readyStatus('theKing2Ready');
+});
+client.on('theKing3', scenario => {
+  spaces();
+  console.log(chalk.inverse(scenario.name));
+  console.log(scenario.dialogue);
+  roll(scenario, 'theKing3Roll');
+})
+client.on('theKing3Result', result => {
+  spaces();
+  console.log(chalk.inverse(result.choiceName));
+  console.log(result.dialogue);
+  readyStatus('theKing3Ready');
+});
+client.on('disconnect', message => {
+  console.log(chalk.red('DISCONNECTED!', message));
+})
+client.on('gameOver', message => {
+  spaces();
+  console.log(chalk.bgRed(message.name));
+  console.log(message.dialogue);
+})
+
+///////////////////////////////////////////////
+
+function riddle(scenario, emitStr, role) {
   inquirer
   .prompt([
     {
@@ -137,9 +234,11 @@ function riddle(scenario, emitStr) {
     },
   ])
   .then(answer => {
-    client.emit(emitStr, answer.guess);
+    let payload = { answer: answer.guess, char: role }
+    client.emit(emitStr, payload);
   });
 }
+
 function choiceFunction2(scenario, emitStr){
   inquirer
     .prompt([
@@ -204,7 +303,10 @@ function choiceFunction3(scenario, emitStr){
         client.emit(emitStr, scenario.choices.choice2)
       } else if (choice.Answer[0] === scenario.choices.choice3.choiceName) {
         client.emit(emitStr, scenario.choices.choice3)
+      } else {
+        client.emit(emitStr, scenario.choices.choice2)
       }
+
     })
     .catch(error => {
       if(error.isTtyError) {
@@ -219,60 +321,69 @@ function choiceFunction3(scenario, emitStr){
 
 
   //-----------READY FUNCTION----------//
-  function readyStatus (emitStr) {
+  function readyStatus(emitStr) {
     inquirer
-    .prompt([
-      {
-        type: 'confirm',
-        message: 'TYPE Y IF YOU"RE READY TO PROCEED',
-        name: 'Answer',
-      },
-    ])
-    .then(choice => {
-      let status = null;
-      if(choice) {
-        status = 'Player ready'
-      }
-      client.emit(emitStr, status);
-      console.log(status);
-    })
-    .catch(error => {
-      if(error.isTtyError) {
-        //Prompt couldn't be rendered in the current environment
-        console.log(error)
-      } else {
-        console.log('Something else when wrong')
-      }
-    });
+      .prompt([
+        {
+          type: 'confirm',
+          message: 'Hit return to proceed',
+          name: 'Answer',
+        },
+      ])
+      .then(choice => {
+        let status = null;
+        if (choice) {
+          status = `${role} Ready`
+        }
+        client.emit(emitStr, status);
+        console.log(chalk.green(status));
+      })
+      .catch(error => {
+        if (error.isTtyError) {
+          //Prompt couldn't be rendered in the current environment
+          console.log(error)
+        } else {
+          console.log(chalk.red('Something else when wrong'))
+        }
+      });
   }
 
 
   //---------- DICE ROLL FUNCTION -----------//
 
-function roll(emitStr){
-  inquirer
-  .prompt([
-    {
-      type: 'confirm',
-      message: 'ROLL THE DICE TO SEE YOUR FUTURE MY LORD',
-      name: 'Answer',
-    },
-  ])
-  .then(choice => {
-    let randomNumber = Math.floor((Math.random() * 6) + 1);
-    client.emit(emitStr, randomNumber);
-    console.log('You rolled a ', randomNumber);
-  })
-  .catch(error => {
-    if(error.isTtyError) {
-      //Prompt couldn't be rendered in the current environment
-      console.log(error)
-    } else {
-      console.log('Something else when wrong')
-    }
-  });
+  function roll(scenario, emitStr) {
+    inquirer
+      .prompt([
+        {
+          type: 'confirm',
+          message: scenario.choiceQuestion,
+          name: 'Answer',
+        },
+      ])
+      .then(choice => {
+        let randomNumber = Math.floor((Math.random() * 6) + 1);
+        client.emit(emitStr, randomNumber);
+        console.log(chalk.yellow('You rolled a ', randomNumber));
+      })
+      .catch(error => {
+        if (error.isTtyError) {
+          //Prompt couldn't be rendered in the current environment
+          console.log(error)
+        } else {
+          console.log(chalk.red('Something else when wrong'))
+        }
+      });
+  }
+
+function spaces() {
+  console.log('');
+  console.log('');
 }
 
+//////////////////////////////////////////////////
 
-
-
+function welcomeScene() {
+  let story = `Your name is Silent Crash and you are an Elvin Hunter from the Isle of Glisandrial, homeland to the elves. From the age of 3 years you were trained in warfare like any other elf but you excelled and grew to be a skilled archer and animal tamer. When you were entering adulthood your parents went of to visit a neighboring elvin stronghold and were killed by a band of Orc raiders on elvin land. It is because of human corruption that monsters like Orcs have flourished and become emboldened to trespass where they never have before. You've made it your life's mission to wipe out those that encourage darkness to grow; to seek vengence for the death of your parents. You joined with a mixed band of warriors who have become renowned for your heroic deeds and prowess in battle.`;
+  console.log(`Your Story: ${story}`);
+  spaces();
+}
