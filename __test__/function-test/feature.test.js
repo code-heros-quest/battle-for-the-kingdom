@@ -60,52 +60,39 @@ describe('testing the dice roll', () => {
   })
 });
 
-function readyStatus (result, emitStr, scenario) { 
-  if(result){
-    readyCount++;
-  }
-  if(readyCount === 4){
-    // io.emit(emitStr, scenario);
-    return 'ready count has reached 4';
-    readyCount = 0;
-  }    
-}
-
   
+// // ------------------ CHOICE SCENARIOS ----------------//
+// function choiceVote(result, emitStr, choice1, choice2, choice3) {
+//   tempArr.push(result);
+// let ch1 = 0;
+// let ch2 = 0;
+// let ch3 = 0;
 
+//   if (tempArr.length === 4){
+//     for (let i = 0; i < tempArr.length; i++){
+//     if (tempArr[i].num === 1) {
+//       ch1++
+//     } else if (tempArr[i].num === 2) {
+//       ch2++
+//     } else if (tempArr[i].num === 3) {
+//       ch3++
+//     }
+//     } if(ch1 > ch2 && ch1 > ch3){
+//       // io.emit(emitStr, choice1);
+//       tempArr = [];
+//     } else if(ch2 > ch1 && ch2 > ch3){
+//       // io.emit(emitStr, choice2);
+//       tempArr = [];
+//     } else if (ch3 > ch2 && ch3 > ch1){
+//       // io.emit(emitStr, choice3);
+//       tempArr = [];
+//     }
+//     else {
+//       let randChoice = [null, choice1, choice2, choice3];
+//       let answer = Math.floor(Math.random() * (tempArr.length - 1) + 1);
+//       // io.emit(emitStr, randChoice[answer]);
+//       tempArr = [];
+//     }
   
-// ------------------ CHOICE SCENARIOS ----------------//
-function choiceVote(result, emitStr, choice1, choice2, choice3) {
-  tempArr.push(result);
-let ch1 = 0;
-let ch2 = 0;
-let ch3 = 0;
-
-  if (tempArr.length === 4){
-    for (let i = 0; i < tempArr.length; i++){
-    if (tempArr[i].num === 1) {
-      ch1++
-    } else if (tempArr[i].num === 2) {
-      ch2++
-    } else if (tempArr[i].num === 3) {
-      ch3++
-    }
-    } if(ch1 > ch2 && ch1 > ch3){
-      // io.emit(emitStr, choice1);
-      tempArr = [];
-    } else if(ch2 > ch1 && ch2 > ch3){
-      // io.emit(emitStr, choice2);
-      tempArr = [];
-    } else if (ch3 > ch2 && ch3 > ch1){
-      // io.emit(emitStr, choice3);
-      tempArr = [];
-    }
-    else {
-      let randChoice = [null, choice1, choice2, choice3];
-      let answer = Math.floor(Math.random() * (tempArr.length - 1) + 1);
-      // io.emit(emitStr, randChoice[answer]);
-      tempArr = [];
-    }
-  
-  } 
-}
+//   } 
+// }
