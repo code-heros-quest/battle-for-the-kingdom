@@ -79,7 +79,7 @@ const wishingWellChoices = {
   choice2: new Choice(2, 'Good Luck', `Early the next morning your team packs up and stashes everything you don’t need for your mission in Halbert’s barn. The cow moo’s in surprise at having unknown guests, but continues chewing her hay before long. If you survive you will be able to come back and get your packs. If you don’t return Halbert has been instructed to turn them in to the city guard as suspicious “lost and found” so he will not be accused of aiding you. You plan to split up about half way to the palace and approach from different directions.`, null)
 }
 
-const wishingWell = new Scenario('The Wishing Well', ``, ``, wishingWellChoices);
+const wishingWell = new Scenario('The Wishing Well', `You sleep the night in Halberts barn but are up with the roosters to get on the road. You leave the city on a small path headed northwest. Within 30 minutes of travel your band of warriors is out of site range of the city. Surrounded by the beautiful country side it is hard to remember why you are here. Little things break the illusion of peace - fields left fallow and growing weeds, bits of ground torn up and scraps of armor laying beside the road where travelers have been ambushed. ${char.wizard.name} reminds you all to keep a sharp eye for bandits.`, ``, wishingWellChoices);
 
 // horned animal
 const hornedAnimalChoices = {
